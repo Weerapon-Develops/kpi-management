@@ -1,0 +1,99 @@
+
+// .login-card {
+//   width: 300px;
+// }
+
+// .mat-btb-login {
+// // color: blue;
+
+// }
+
+// .lbl-message {
+// color: red;
+// }
+
+// .cover1
+// {
+// background-image: url("https://sls-prod.api-onscene.com/partner_files/trueidintrend/168875/Cover1400x600_Hospital-Playlist-02.jpg");
+// background-color: aquamarine;
+// background-size: contain;
+// }
+
+
+// .example-button-row .mat-button-base {
+//   margin: 8px 8px 8px 0;
+// }
+
+// .image-container {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
+
+// .login-image {
+//   max-width: 300px;  /* ✅ จำกัดขนาดสูงสุด */
+//   width: 100%;       /* responsive */
+//   height: auto;
+//   border-radius: 8px; /* (ถ้าอยากได้มุมโค้งนิดๆ) */
+// }
+
+/* ครอบ container ทั้งหมด จัดตรงกลางจอ */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* เต็มจอ */
+  background: #f5f7fa; /* พื้นหลังอ่อน */
+}
+
+/* card login */
+.login-card {
+  width: 400px;
+  padding: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); /* เงาสวย ๆ */
+  border-radius: 12px;
+}
+
+/* title */
+.login-title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  color: cornflowerblue;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+/* ฟิลด์ */
+.login-field {
+  width: 100%;
+}
+
+/* ปุ่ม login */
+.mat-btb-login {
+  width: 100%;
+  font-weight: bold;
+}
+
+/* ข้อความ error */
+.lbl-message {
+  color: red;
+  text-align: center;
+  font-size: 14px;
+  margin-top: -10px;
+}
+
+/* รูป */
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-image {
+  max-width: 150px;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}

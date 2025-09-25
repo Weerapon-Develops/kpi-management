@@ -1,0 +1,39 @@
+
+.login-card {
+  width: 300px;
+}
+
+.mat-btb-login {
+// color: blue;
+
+}
+
+.lbl-message {
+color: red;
+}
+
+.cover1
+{
+background-image: url("https://sls-prod.api-onscene.com/partner_files/trueidintrend/168875/Cover1400x600_Hospital-Playlist-02.jpg");
+background-color: aquamarine;
+background-size: contain;
+}
+
+
+.example-button-row .mat-button-base {
+  margin: 8px 8px 8px 0;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-image {
+  max-width: 300px;  /* ✅ จำกัดขนาดสูงสุด */
+  width: 100%;       /* responsive */
+  height: auto;
+  border-radius: 8px; /* (ถ้าอยากได้มุมโค้งนิดๆ) */
+}
+
