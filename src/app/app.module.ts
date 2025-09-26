@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -19,9 +19,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCardModule } from '@angular/material/card';
 import { ToastrModule } from 'ngx-toastr';
+import { AppConfig } from './app.config';
 // import { AuthLoginComponent } from './AuthLogin/auth-login.component';
 // import { LoginComponentV2 } from './Login/login.component';
+// import { DashboardComponent } from './dashboard/dashboard.component';
 
+export function initializeApp(appConfig: AppConfig) {
+  return () => appConfig.load();
+}
 
 
 @NgModule({
@@ -29,7 +34,8 @@ import { ToastrModule } from 'ngx-toastr';
     AppComponent,
     // LoginComponentV2
     // AuthLoginComponent
-  ],
+      // DashboardComponent
+   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -55,7 +61,15 @@ import { ToastrModule } from 'ngx-toastr';
     }),
 
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeApp,
+      deps: [AppConfig],
+      multi: true
+    }
+  ]
+,
   bootstrap: [AppComponent]
 })
 export class AppModule { }

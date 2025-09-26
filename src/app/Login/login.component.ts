@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
-// import { ApiService } from '../Services/api.service';
+import { ApiService } from '../Services/api.service';
 
 
 @Component({
@@ -25,7 +25,7 @@ export class LoginComponent {
   num : any;
   formDisable: boolean = false;
   constructor(
-    // private ApiService: ApiService,
+    private ApiService: ApiService,
      private router:Router,
     private alertProvider: AlertProvider) { }
 
@@ -47,23 +47,25 @@ export class LoginComponent {
       return
     } else
     {
-      this.router.navigate(['landing-page']);
-      this.alertProvider.toastrSuccess('เข้าสู่ระบบสำเร็จ');
+      // this.router.navigate(['landing-page']);
+      // this.alertProvider.toastrSuccess('เข้าสู่ระบบสำเร็จ');
+    // }
+     const loginres = await this.ApiService.login(this.objLogin.userName, this.objLogin.password);
+    console.log("result", loginres);
+
+    if (loginres.success) {
+      this.router.navigate(['auth/account']);
+      this.isShowMessage = false
+
     }
-     // const loginres = await this.ApiService.login(this.objLogin.userName, this.objLogin.password);
-    // console.log("result", loginres.message);
+    else {
+      this.strMessage = loginres.message;
+      this.isShowMessage = true;
+    }
 
-    // if (loginres.success) {
-    //   this.router.navigate(['auth/account']);
-    //   this.isShowMessage = false
-
-    // }
-    // else {
-    //   this.strMessage = loginres.message;
-    //   this.isShowMessage = true;
-    // }
   }
 
+}
 }
 
 export interface Login {
