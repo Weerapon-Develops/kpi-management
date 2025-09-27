@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { ApiService } from '../Services/api.service';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @Component({
@@ -13,7 +14,7 @@ import { ApiService } from '../Services/api.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, MatInputModule, MatCardModule]
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, MatInputModule, MatCardModule, MatButtonModule]
 })
 
 export class LoginComponent {
@@ -64,6 +65,10 @@ export class LoginComponent {
 
     }
 
+  }
+
+  onclickRegister() {
+    this.router.navigate(['register']);
   }
 }
 

@@ -1,42 +1,3 @@
-
-// .login-card {
-//   width: 300px;
-// }
-
-// .mat-btb-login {
-// // color: blue;
-
-// }
-
-// .lbl-message {
-// color: red;
-// }
-
-// .cover1
-// {
-// background-image: url("https://sls-prod.api-onscene.com/partner_files/trueidintrend/168875/Cover1400x600_Hospital-Playlist-02.jpg");
-// background-color: aquamarine;
-// background-size: contain;
-// }
-
-
-// .example-button-row .mat-button-base {
-//   margin: 8px 8px 8px 0;
-// }
-
-// .image-container {
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// }
-
-// .login-image {
-//   max-width: 300px;  /* ✅ จำกัดขนาดสูงสุด */
-//   width: 100%;       /* responsive */
-//   height: auto;
-//   border-radius: 8px; /* (ถ้าอยากได้มุมโค้งนิดๆ) */
-// }
-
 /* ครอบ container ทั้งหมด จัดตรงกลางจอ */
 .login-container {
   display: flex;
@@ -55,13 +16,21 @@
 }
 
 /* title */
-.login-title {
-  text-align: center;
-  font-size: 22px;
-  font-weight: bold;
+// .login-title {
+//   text-align: center;
+//   font-size: 22px;
+//   font-weight: bold;
+//   color: cornflowerblue;
+//   margin-bottom: 20px;
+//   width: 100%;
+// }
+mat-card-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  padding: 0;
   color: cornflowerblue;
-  margin-bottom: 20px;
-  width: 100%;
 }
 
 /* ฟิลด์ */
@@ -73,6 +42,25 @@
 .mat-btb-login {
   width: 100%;
   font-weight: bold;
+  font-size: 0.8rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  background-color: #3F51B5;
+}
+
+/* ปุ่ม Register */
+.mat-btb-Register {
+  width: 100%;
+  font-weight: bold;
+  font-size: 0.8rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  text-transform: uppercase;
+  background-color: #9E9E9E;
 }
 
 /* ข้อความ error */
@@ -91,9 +79,12 @@
 }
 
 .login-image {
-  max-width: 150px;
+  max-width: 280px;
   width: 100%;
   height: auto;
   border-radius: 8px;
   margin-bottom: 15px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }

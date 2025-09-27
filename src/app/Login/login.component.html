@@ -1,43 +1,4 @@
-<!-- <div class="container">
-  <br>
-  <br>
-  <br>
-  <br>
-<mat-card>
-  <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center">
-    <h1 align="center" style="color: cornflowerblue;">เข้าสู่ระบบ</h1>
-  </div>
-<div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1.5%" fxLayoutAlign="center">
-  <div fxFlex="40%" class="image-container">
-    <img src="https://images-cdn.welcomesoftware.com/Zz1jNmEzMDA4N2UzM2IxMWViOWI3NWRiMzc0MDc3YWZmNQ==/Health%20care%2C%20Blood%20test.jpeg"
-         class="login-image">
-  </div>
-</div>
-    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1.5%" fxLayoutAlign="center">
-      <div fxFlex="40%">
-        <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="left">
-          <mat-form-field appearance="fill" fxFlex="100%">
-            <mat-label>Username</mat-label>
-            <input matInput [(ngModel)]="objLogin.userName" placeholder="username">
-          </mat-form-field>
-    </div>
-    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="left">
-      <mat-form-field fxFlex="100%" appearance="fill">
-        <mat-label>Password</mat-label>
-        <input matInput [(ngModel)]="objLogin.password" type="password" placeholder="password">
-      </mat-form-field>
-  </div>
-  <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center">
-    <label fxFlex="100%"  *ngIf="isShowMessage" style="margin-bottom: 3%;text-align: center;" class="lbl-message">{{strMessage}}</label>
-  </div>
-  <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center" fxLayoutGap="1.5%">
-    <button mat-raised-button fxFlex="40%" color="primary" (click)="onclickSignIn()" class="mat-btb-login">{{'Login'}}</button>
-</div>
-      </div>
-    </div>
-</mat-card>
-</div>
- -->
+
 <div class="login-container">
   <mat-card class="login-card">
     <mat-card-header>
@@ -49,8 +10,9 @@
 
         <!-- รูป -->
         <div class="image-container">
-          <img src="https://images-cdn.welcomesoftware.com/Zz1jNmEzMDA4N2UzM2IxMWViOWI3NWRiMzc0MDc3YWZmNQ==/Health%20care%2C%20Blood%20test.jpeg"
-               class="login-image">
+          <!-- <img src="https://images-cdn.welcomesoftware.com/Zz1jNmEzMDA4N2UzM2IxMWViOWI3NWRiMzc0MDc3YWZmNQ==/Health%20care%2C%20Blood%20test.jpeg" class="login-image"> -->
+          <img src="assets\images\image\KPI_Management_Image.jpg" class="login-image">
+
         </div>
 
         <!-- ฟอร์ม -->
@@ -69,6 +31,10 @@
         <button mat-raised-button color="primary" class="mat-btb-login" (click)="onclickSignIn()">
           Login
         </button>
+        <button mat-raised-button color="warn" class="mat-btb-Register" (click)="onclickRegister()">
+          Register
+        </button>
+
       </div>
     </mat-card-content>
   </mat-card>
