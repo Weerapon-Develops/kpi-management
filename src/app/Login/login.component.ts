@@ -12,7 +12,7 @@ import { ApiService } from '../Services/api.service';
   selector: 'app-login-v2',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-    standalone: true, // <-- ตรงนี้
+  standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule, MatInputModule, MatCardModule]
 })
 
@@ -22,11 +22,11 @@ export class LoginComponent {
   public objLogin: Login = { userName: "", password: "" };
   public userName: String = "";
   public isShowMessage: boolean = true;
-  num : any;
+  num: any;
   formDisable: boolean = false;
   constructor(
     private ApiService: ApiService,
-     private router:Router,
+    private router: Router,
     private alertProvider: AlertProvider) { }
 
   ngOnInit(): void {
@@ -37,35 +37,34 @@ export class LoginComponent {
 
   async onclickSignIn() {
 
-    if(this.objLogin.userName.length === 0)
-    {
+    if (this.objLogin.userName.length === 0) {
       this.alertProvider.toastrWarning('โปรดระบุ Username');
       return
-    } else if (this.objLogin.password.length === 0)
-    {
+    } else if (this.objLogin.password.length === 0) {
       this.alertProvider.toastrWarning('โปรดระบุ Password');
       return
-    } else
-    {
+    } else {
       // this.router.navigate(['landing-page']);
       // this.alertProvider.toastrSuccess('เข้าสู่ระบบสำเร็จ');
-    // }
-     const loginres = await this.ApiService.login(this.objLogin.userName, this.objLogin.password);
-    console.log("result", loginres);
+      // }
+      const loginres = await this.ApiService.login(this.objLogin.userName, this.objLogin.password);
+      console.log("result", loginres);
 
-    if (loginres.success) {
-      this.router.navigate(['auth/account']);
-      this.isShowMessage = false
+      if (loginres.success) {
+        console.log("Success");
+        localStorage.setItem('token', loginres.token);
+        this.router.navigate(['dashboard']);
+        this.isShowMessage = false
 
-    }
-    else {
-      this.strMessage = loginres.message;
-      this.isShowMessage = true;
+      }
+      else {
+        this.strMessage = loginres.message;
+        this.isShowMessage = true;
+      }
+
     }
 
   }
-
-}
 }
 
 export interface Login {

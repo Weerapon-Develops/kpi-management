@@ -1,0 +1,34 @@
+<div class="sidebar" [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }">
+  <div class="sidebar-header">
+    <a class="sidebar-logo">{{
+      isSidebarCollapsed ? 'C' : 'KPI Management'
+      }}</a>
+  </div>
+  <div class="sidebar-menu">
+    <ul>
+      <ng-container *ngFor="let item of menuItems">
+        <li class="sidebar-menu-item">
+          <a class="sidebar-item" [ngClass]="{
+              'has-children': item.children,
+              'menu-item-active': item.isOpen
+            }" (click)="toggleMenuItem(item)">
+            <i [class]="item.icon"></i>
+            <span class="sidebar-item-text">{{ item.label }}</span>
+            <i *ngIf="item.children && !isSidebarCollapsed" class="fas fa-chevron-down sidebar-item-arrow"
+              [ngClass]="{ rotated: item.isOpen }"></i>
+          </a>
+
+          <ul *ngIf="item.children && !isSidebarCollapsed && item.isOpen" class="sidebar-submenu">
+            <li *ngFor="let child of item.children">
+              <a class="sidebar-item sidebar-subitem">
+
+                <i [class]="child.icon"></i>
+                <span class="sidebar-item-text">{{ child.label }}</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+</div>

@@ -20,9 +20,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatCardModule } from '@angular/material/card';
 import { ToastrModule } from 'ngx-toastr';
 import { AppConfig } from './app.config';
-// import { AuthLoginComponent } from './AuthLogin/auth-login.component';
-// import { LoginComponentV2 } from './Login/login.component';
-// import { DashboardComponent } from './dashboard/dashboard.component';
+
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -32,9 +30,6 @@ export function initializeApp(appConfig: AppConfig) {
 @NgModule({
   declarations: [
     AppComponent,
-    // LoginComponentV2
-    // AuthLoginComponent
-      // DashboardComponent
    ],
   imports: [
     BrowserModule,

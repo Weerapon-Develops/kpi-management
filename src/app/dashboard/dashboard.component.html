@@ -1,3 +1,29 @@
-<p>
-  dashboard works!
-</p>
+
+<div class="app-container">
+  <div class="position-relative">
+    <app-sidebar
+      [isSidebarCollapsed]="isSidebarCollapsed"
+      (sidebarToggle)="onSidebarToggle()"
+    >
+    </app-sidebar>
+    <button
+      class="sidebar-toggle-btn"
+      [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }"
+      (click)="onSidebarToggle()"
+    >
+      <i
+        [class]="
+          isSidebarCollapsed ? 'fas fa-arrow-right' : 'fas fa-arrow-left'
+        "
+      ></i>
+    </button>
+  </div>
+
+  <main class="content" [ngClass]="{ 'content-expanded': isSidebarCollapsed }">
+  <div class="content-inner">
+    <a>teresfsdfsf</a>
+    <router-outlet></router-outlet>
+  </div>
+</main>
+
+</div>
