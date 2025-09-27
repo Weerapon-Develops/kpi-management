@@ -15,11 +15,22 @@ const routes: Routes = [
     component: DashboardComponent,
     canActivate: [AuthGuardService],
     children: [
-      { path: 'account', component: AccountComponent },
-      // เพิ่มหน้าอื่น ๆ เช่น:
-      // { path: 'settings/profile', component: ProfileComponent },
-      // { path: 'messages', component: MessagesComponent }
+      {
+        path: 'account',
+        loadComponent: () => import('./pages/account/account.component').then(m => m.AccountComponent)
+      },
+      {
+        path: 'kpi',
+        loadComponent: () => import('./pages/kpi/kpi.component').then(m => m.KpiComponent)
+      }
     ]
+
+    // children: [
+    //   { path: 'account', component: AccountComponent },
+    //   // เพิ่มหน้าอื่น ๆ เช่น:
+    //   // { path: 'settings/profile', component: ProfileComponent },
+    //   // { path: 'messages', component: MessagesComponent }
+    // ]
   }
 ];
 

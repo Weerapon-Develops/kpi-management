@@ -4,19 +4,19 @@ import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
-  selector: 'app-account',
-  templateUrl: './account.component.html',
-  styleUrls: ['./account.component.scss'],
+  selector: 'app-kpi',
+  templateUrl: './kpi.component.html',
+  styleUrls: ['./kpi.component.scss'],
   standalone: true,
   imports: [CommonModule, FormsModule, MatCardModule]
-})
 
-export class AccountComponent implements OnInit {
+})
+export class KpiComponent implements OnInit {
 
   constructor() { }
 
   ngOnInit() {
-    console.log("Account");
+    console.log("KPI");
 
   }
 

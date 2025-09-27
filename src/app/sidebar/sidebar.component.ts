@@ -17,31 +17,6 @@ export class SidebarComponent implements OnInit {
   @Input() isSidebarCollapsed: boolean = false
   @Output() sidebarToggle = new EventEmitter<void>();
 
-  // menuItems: MenuItem[] = [
-  //   {
-  //     icon: 'fas fa-home',
-  //     label: 'account',
-  //     isOpen: false,
-  //     children: [
-  //       { icon: 'fas fa-chart-pie', label: 'account' },
-  //       { icon: 'fas fa-tasks', label: 'Projects' },
-  //     ]
-  //   },
-  //   {
-  //     icon: 'fas fa-cog',
-  //     label: 'Settings',
-  //     isOpen: false,
-  //     children: [
-  //       { icon: 'fas fa-user', label: 'Profile' },
-  //       { icon: 'fas fa-lock', label: 'Security' },
-  //     ]
-  //   },
-  //   {
-  //     icon: 'fas fa-envelope',
-  //     label: 'Messages'
-  //   }
-  // ];
-
   constructor(
     private router: Router
   ) { }
@@ -58,10 +33,10 @@ export class SidebarComponent implements OnInit {
     },
     {
       icon: 'fas fa-cog',
-      label: 'Settings',
+      label: 'Transaction',
       isOpen: false,
       children: [
-        { icon: 'fas fa-user', label: 'Profile', route: 'settings/profile' },
+        { icon: 'fas fa-user', label: 'kpi', route: 'kpi' },
         { icon: 'fas fa-lock', label: 'Security', route: 'settings/security' }
       ]
     },
@@ -90,9 +65,7 @@ export class SidebarComponent implements OnInit {
       console.log(targetRoute);
 
       if (targetRoute) {
-console.log("navigate");
-
-        this.router.navigate(['dashboard/', item.children[0].route]);
+        this.router.navigate(['/dashboard', item.children[0].route]);
 
       }
     }

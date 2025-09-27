@@ -3,21 +3,21 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { SidebarComponent } from './sidebar.component';
+import { KpiComponent } from './kpi.component';
 
-describe('SidebarComponent', () => {
-  let component: SidebarComponent;
-  let fixture: ComponentFixture<SidebarComponent>;
+describe('KpiComponent', () => {
+  let component: KpiComponent;
+  let fixture: ComponentFixture<KpiComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ SidebarComponent ]
+      declarations: [ KpiComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SidebarComponent);
+    fixture = TestBed.createComponent(KpiComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

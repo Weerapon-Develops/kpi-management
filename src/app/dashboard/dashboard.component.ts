@@ -11,6 +11,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,7 +20,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
   styleUrls: ['./dashboard.component.scss'],
   imports: [CommonModule, FormsModule, ReactiveFormsModule, MatInputModule,
     MatCardModule,MatSidenavModule,MatToolbarModule,MatListModule,MatPaginatorModule,
-  MatTableModule,MatListModule,SidebarComponent],
+  MatTableModule,MatListModule,SidebarComponent,RouterModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class DashboardComponent implements OnInit {
@@ -28,6 +29,8 @@ export class DashboardComponent implements OnInit {
 
   onSidebarToggle() {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
+    console.log(this.isSidebarCollapsed);
+
   }
 
   ngOnInit(): void {

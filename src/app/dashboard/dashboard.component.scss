@@ -1,54 +1,18 @@
-// .example-container {
-//   height: 100vh;
-// }
-
-// .sidenav {
-//   width: 220px;
-// }
-
-// .main-content {
-//   padding: 20px;
-// }
-
-// .filter-form {
-//   margin-bottom: 20px;
-// }
-
-// .form-row {
-//   display: flex;
-//   gap: 16px;
-//   margin-bottom: 16px;
-// }
-
-// .button-row {
-//   display: flex;
-//   gap: 12px;
-//   margin-bottom: 24px;
-// }
 
 
 .app-container {
   display: flex;
-  height: 100vh;
+  height: 100vh;   // เต็มหน้าจอ
   overflow: hidden;
 }
 
 .content {
   flex-grow: 1;
-  margin-left: 250px;
+  margin-left: 250px; // sidebar ปกติ
+  height: 100vh;      // เต็มสูง
+  overflow-y: auto;
   transition: all 0.3s ease-in-out;
   background-color: #f4f6f7;
-  overflow-y: auto;
-
-  &-inner {
-    padding: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  &-expanded {
-    margin-left: 50px;
-  }
 }
 
 .sidebar-toggle-btn {
@@ -71,6 +35,19 @@
   }
 
   &.sidebar-collapsed {
-    left: 15px; // Position when sidebar is collapsed
+    left: 15px;
   }
 }
+
+.content-expanded {
+  margin-left: 50px;
+}
+
+.content-inner {
+  padding: 0.5rem 1rem;
+  max-width: 100%;
+  margin: 0;
+  height: 100%;
+  box-sizing: border-box;
+}
+
