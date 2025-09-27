@@ -10,15 +10,14 @@
         <li class="sidebar-menu-item">
           <!-- Main Menu -->
           <a class="sidebar-item" [ngClass]="{
-              'has-children': item.children,
-              'menu-item-active': item.isOpen
-            }" (click)="toggleMenuItem(item)">
+     'has-children': item.children,
+     'menu-item-active': item.isOpen
+   }" (click)="item.children ? toggleMenuItem(item) : navigateToItem(item)">
             <i [class]="item.icon"></i>
             <span class="sidebar-item-text">{{ item.label }}</span>
             <i *ngIf="item.children && !isSidebarCollapsed" class="fas fa-chevron-down sidebar-item-arrow"
               [ngClass]="{ rotated: item.isOpen }"></i>
           </a>
-
           <!-- Child Menu -->
           <ul *ngIf="item.children && !isSidebarCollapsed && item.isOpen" class="sidebar-submenu">
             <li *ngFor="let child of item.children">

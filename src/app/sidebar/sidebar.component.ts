@@ -23,29 +23,33 @@ export class SidebarComponent implements OnInit {
 
   menuItems: MenuItem[] = [
     {
-      icon: 'fas fa-home',
+      icon: 'fa-solid fa-folder-open',
       label: 'Master',
       isOpen: false,
       children: [
-        { icon: 'fas fa-chart-pie', label: 'account', route: 'account' },
-        { icon: 'fas fa-tasks', label: 'ManageRole', route: 'account/projects' }
+        { icon: 'fa-solid fa-circle-user', label: 'Account', route: 'account' },
+        { icon: 'fa-solid fa-users', label: 'ManageRole', route: 'account/projects' }
       ]
     },
     {
-      icon: 'fas fa-cog',
+      icon: 'fa-solid fa-list-ul',
       label: 'Transaction',
       isOpen: false,
       children: [
-        { icon: 'fas fa-user', label: 'kpi', route: 'kpi' },
-        { icon: 'fas fa-lock', label: 'Security', route: 'settings/security' }
+        { icon: 'fa-solid fa-clipboard-check', label: 'KPI', route: 'kpi' },
+        { icon: 'fa-solid fa-clipboard-check', label: 'Work Performance', route: 'settings/security' }
       ]
     },
     {
-      icon: 'fas fa-envelope',
-      label: 'Messages',
-      route: '/messages'
+      icon: 'fa-solid fa-right-from-bracket',
+      label: 'Logout',
+      route: '/login'
     }
   ];
+
+
+    ngOnInit() {
+  }
 
 
   toggleSidebar() {
@@ -53,22 +57,6 @@ export class SidebarComponent implements OnInit {
 
     this.sidebarToggle.emit();
   }
-
-  // toggleMenuItem(item: MenuItem) {
-  //   console.log("item", item.children);
-
-  //   if (!this.isSidebarCollapsed && item.children) {
-  //     item.isOpen = !item.isOpen;
-  //     console.log(item.children);
-  //     const targetRoute = item.children[0].route;
-  //     console.log(targetRoute);
-
-  //     if (targetRoute) {
-  //       this.router.navigate(['/dashboard', item.children[0].route]);
-
-  //     }
-  //   }
-  // }
 
   toggleMenuItem(item: MenuItem) {
   if (!this.isSidebarCollapsed && item.children) {
@@ -84,10 +72,24 @@ navigateToChild(child: MenuItem) {
   }
 }
 
-
-
-  ngOnInit() {
+navigateToItem(item: MenuItem) {
+  if (item.label === 'Logout') {
+    this.handleLogout();
+    return;
   }
+
+  if (item.route) {
+    this.router.navigate([item.route]);
+  }
+}
+
+
+handleLogout() {
+  localStorage.removeItem('token');
+  this.router.navigate(['/login']);
+}
+
+
 
 }
 

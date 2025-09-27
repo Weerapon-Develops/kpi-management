@@ -2,19 +2,39 @@
 @import "@angular/material/prebuilt-themes/indigo-pink.css";
 
 /* Font (optional) */
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+@font-face {
+  font-family: 'Kanit';
+  src: url('/assets/fonts/kanit-regular-webfont.woff') format('woff'),
+       url('/assets/fonts/kanit-regular-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+ฆ
+
 
 /* Global Reset & Base Styles */
 * {
   box-sizing: border-box;
 }
 
-body {
+html, body {
+  height: 100%;
   margin: 0;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Kanit', sans-serif;
   background-color: #f5f5f5;
   color: #333;
 }
+
+
+// body {
+//   margin: 0;
+//   font-family: 'Roboto', sans-serif;
+//   background-color: #f5f5f5;
+//   color: #333;
+// }
 
 /* Utility Classes */
 .full-width {
