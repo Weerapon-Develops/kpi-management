@@ -8,6 +8,7 @@
     <ul>
       <ng-container *ngFor="let item of menuItems">
         <li class="sidebar-menu-item">
+          <!-- Main Menu -->
           <a class="sidebar-item" [ngClass]="{
               'has-children': item.children,
               'menu-item-active': item.isOpen
@@ -18,15 +19,16 @@
               [ngClass]="{ rotated: item.isOpen }"></i>
           </a>
 
+          <!-- Child Menu -->
           <ul *ngIf="item.children && !isSidebarCollapsed && item.isOpen" class="sidebar-submenu">
             <li *ngFor="let child of item.children">
-              <a class="sidebar-item sidebar-subitem">
-
+              <a class="sidebar-item sidebar-subitem" (click)="navigateToChild(child)">
                 <i [class]="child.icon"></i>
                 <span class="sidebar-item-text">{{ child.label }}</span>
               </a>
             </li>
           </ul>
+
         </li>
       </ng-container>
     </ul>

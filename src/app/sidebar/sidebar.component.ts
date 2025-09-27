@@ -54,22 +54,37 @@ export class SidebarComponent implements OnInit {
     this.sidebarToggle.emit();
   }
 
+  // toggleMenuItem(item: MenuItem) {
+  //   console.log("item", item.children);
+
+  //   if (!this.isSidebarCollapsed && item.children) {
+  //     item.isOpen = !item.isOpen;
+  //     console.log(item.children);
+  //     const targetRoute = item.children[0].route;
+  //     console.log(targetRoute);
+
+  //     if (targetRoute) {
+  //       this.router.navigate(['/dashboard', item.children[0].route]);
+
+  //     }
+  //   }
+  // }
+
   toggleMenuItem(item: MenuItem) {
-    console.log("item", item.children);
-
-    // Only toggle if sidebar is not collapsed and item has children
-    if (!this.isSidebarCollapsed && item.children) {
-      item.isOpen = !item.isOpen;
-      console.log(item.children);
-      const targetRoute = item.children[0].route;
-      console.log(targetRoute);
-
-      if (targetRoute) {
-        this.router.navigate(['/dashboard', item.children[0].route]);
-
-      }
-    }
+  if (!this.isSidebarCollapsed && item.children) {
+    item.isOpen = !item.isOpen;
   }
+}
+
+navigateToChild(child: MenuItem) {
+  console.log("child",child);
+
+  if (child.route) {
+    this.router.navigate(['/dashboard', child.route]);
+  }
+}
+
+
 
   ngOnInit() {
   }
