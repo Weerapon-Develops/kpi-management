@@ -9,17 +9,15 @@
     </div>
   </div>
 
-
-
   <table mat-table [dataSource]="dataRow" class="mat-elevation-z2" style="width: 100%;">
 
-    <!-- ID Column -->
+
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef> Id </th>
       <td mat-cell *matCellDef="let user"> {{ user.id }} </td>
     </ng-container>
 
-    <!-- title Column -->
+
     <ng-container matColumnDef="title">
       <th mat-header-cell *matHeaderCellDef> Title </th>
       <td mat-cell *matCellDef="let user">
@@ -30,7 +28,6 @@
       </td>
     </ng-container>
 
-    <!-- Description Column -->
     <ng-container matColumnDef="description">
       <th mat-header-cell *matHeaderCellDef> Description </th>
       <td mat-cell *matCellDef="let user">
@@ -42,7 +39,7 @@
     </ng-container>
 
 
-    <!-- TargetValue Column -->
+
     <ng-container matColumnDef="targetValue">
       <th mat-header-cell *matHeaderCellDef> TargetValue </th>
       <td mat-cell *matCellDef="let user">
@@ -55,7 +52,6 @@
 
 
 
-    <!-- ActualValue Column -->
     <ng-container matColumnDef="actualValue">
       <th mat-header-cell *matHeaderCellDef> ActualValue </th>
       <td mat-cell *matCellDef="let user">
@@ -68,18 +64,27 @@
 
 
 
-    <!-- Status Column -->
+
     <ng-container matColumnDef="status">
       <th mat-header-cell *matHeaderCellDef> Status </th>
       <td mat-cell *matCellDef="let user">
         <ng-container *ngIf="editedUser && editedRowId === user.id; else viewStatus">
-          <input matInput [(ngModel)]="editedUser.status" />
+          <mat-form-field appearance="fill" style="width: 100%;">
+            <mat-select [(ngModel)]="editedUser.status">
+              <mat-option *ngFor="let status of dataStatus" [value]="status.value">
+                {{ status.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </ng-container>
-        <ng-template #viewStatus>{{ user.status }}</ng-template>
+        <ng-template #viewStatus>
+          {{ getStatusName(user.status) }}
+        </ng-template>
       </td>
     </ng-container>
 
-     <!-- Employee Column -->
+
+
     <ng-container matColumnDef="assignedUser">
       <th mat-header-cell *matHeaderCellDef> Employee </th>
       <td mat-cell *matCellDef="let user">
@@ -100,18 +105,37 @@
 
 
 
-      <!-- CreatedAt Column -->
     <ng-container matColumnDef="startDate">
-      <th mat-header-cell *matHeaderCellDef> Created </th>
-      <td mat-cell *matCellDef="let user"> {{ user.startDate | date:'dd/MM/yyyy HH:mm' }} </td>
+      <th mat-header-cell *matHeaderCellDef> Start Date </th>
+      <td mat-cell *matCellDef="let user">
+        <ng-container *ngIf="editedUser && editedRowId === user.id; else viewDate">
+          <mat-form-field appearance="fill" style="width: 100%;">
+            <input matInput [matDatepicker]="picker" [(ngModel)]="editedUser.startDate" placeholder="Choose a date" />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </ng-container>
+        <ng-template #viewDate>
+          {{ user.startDate | date:'dd/MM/yyyy' }}
+        </ng-template>
+      </td>
     </ng-container>
 
-    <!-- UpdatedAt Column -->
     <ng-container matColumnDef="endDate">
-      <th mat-header-cell *matHeaderCellDef> Updated </th>
-      <td mat-cell *matCellDef="let user"> {{ user.endDate | date:'dd/MM/yyyy HH:mm' }} </td>
+      <th mat-header-cell *matHeaderCellDef> End Date </th>
+      <td mat-cell *matCellDef="let user">
+        <ng-container *ngIf="editedUser && editedRowId === user.id; else viewEndDate">
+          <mat-form-field appearance="fill" style="width: 100%;">
+            <input matInput [matDatepicker]="pickerEnd" [(ngModel)]="editedUser.endDate" placeholder="Choose a date" />
+            <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+            <mat-datepicker #pickerEnd></mat-datepicker>
+          </mat-form-field>
+        </ng-container>
+        <ng-template #viewEndDate>
+          {{ user.endDate | date:'dd/MM/yyyy' }}
+        </ng-template>
+      </td>
     </ng-container>
-
 
 
     <!-- CreatedAt Column -->
@@ -126,29 +150,23 @@
       <td mat-cell *matCellDef="let user"> {{ user.updatedAt | date:'dd/MM/yyyy HH:mm' }} </td>
     </ng-container> -->
 
-    <!-- Actions Column -->
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef style="width: 130px; text-align: right;"> Actions </th>
       <td mat-cell *matCellDef="let user" style="width: 130px; text-align: right;">
         <ng-container *ngIf="editedUser?.id === user.id; else editDelete">
           <button mat-icon-button color="primary" (click)="saveUser(user)">
             <i class="fa-solid fa-floppy-disk"></i>
-            <!-- <mat-icon>save</mat-icon> -->
           </button>
           <button mat-icon-button color="warn" (click)="cancelEdit()">
             <i class="fa-solid fa-rotate-right"></i>
-            <!-- <mat-icon>cancel</mat-icon> -->
           </button>
         </ng-container>
         <ng-template #editDelete>
           <button mat-icon-button color="accent" (click)="editUser(user)">
             <i class="fa-solid fa-edit"></i>
-
-            <!-- <mat-icon>edit</mat-icon> -->
           </button>
           <button mat-icon-button color="warn" (click)="deleteUser(user.id)">
             <i class="fa-solid fa-trash"></i>
-            <!-- <mat-icon>delete</mat-icon> -->
           </button>
         </ng-template>
       </td>

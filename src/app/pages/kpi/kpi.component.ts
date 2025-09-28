@@ -12,8 +12,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
-import { S } from 'node_modules/@angular/material/error-options.d-CGdTZUYk';
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 @Component({
   selector: 'app-kpi',
   templateUrl: './kpi.component.html',
@@ -21,23 +21,23 @@ import { S } from 'node_modules/@angular/material/error-options.d-CGdTZUYk';
   standalone: true,
   imports: [CommonModule, FormsModule, MatCardModule, MatButtonModule,
     MatTableModule, MatInputModule, MatIconModule, MatButtonModule,
-    ReactiveFormsModule, MatSelectModule, MatDialogModule]
+    ReactiveFormsModule, MatSelectModule, MatDialogModule,MatDatepickerModule,
+    MatNativeDateModule]
 
 })
 export class KpiComponent implements OnInit {
   dataRow: Kpi[] = [];
   editedUser: Kpi | null = null;
-  displayedColumns: string[] = ['id', 'title', 'description', 'targetValue', 'actualValue','status', 'assignedUser','startDate','endDate', 'actions'];
+  displayedColumns: string[] = ['id', 'title', 'description', 'targetValue', 'actualValue', 'status', 'assignedUser', 'startDate', 'endDate', 'actions'];
   editedRowId: number | null = null;
   dataGetAllUser: any[] = [];
 
-  // objRegister: any = {
-  //   userName: '',
-  //   password: '',
-  //   confirmPassword: '',
-  //   email: '',
-  //   roleId: ''
-  // };
+dataStatus: { label: string; value: string }[] = [
+  { label: 'On Track', value: 'On Track' },
+  { label: 'At Risk', value: 'At Risk' },
+  { label: 'Off Track', value: 'Off Track' }
+];
+
 
 
   constructor(private roleLevelService: RoleLevelService,
@@ -46,7 +46,7 @@ export class KpiComponent implements OnInit {
     private dialog: MatDialog
   ) { }
 
- ngOnInit() {
+  ngOnInit() {
     this.roleLevelService.fetchRoleLevel();
     this.roleLevelService.roleLevel$.subscribe(data => {
       if (data) {
@@ -98,6 +98,11 @@ export class KpiComponent implements OnInit {
     const role = this.dataGetAllUser.find(r => r.id === assignedUser);
     return role ? role.username : assignedUser.toString();
   }
+
+getStatusName(status: string | number): string {
+  const matched = this.dataStatus.find(s => s.value === status);
+  return matched ? matched.label : status.toString();
+}
 
 
 
