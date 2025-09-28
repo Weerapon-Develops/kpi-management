@@ -13,17 +13,17 @@ import { ApiService } from '../Services/api.service';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, MatInputModule, MatCardModule,MatSelectModule],
+  imports: [CommonModule, FormsModule, MatInputModule, MatCardModule, MatSelectModule],
 })
 export class RegisterComponent implements OnInit {
 
   public strMessage: String = "";
-  public objRegister: Login = { userName: "", password: "", confirmPassword: "", email: "", roleId: null};
+  public objRegister: Login = { userName: "", password: "", confirmPassword: "", email: "", roleId: null };
   public userName: String = "";
   public isShowMessage: boolean = true;
   num: any;
   formDisable: boolean = false;
-dataRow: any[] = [];
+  dataRow: any[] = [];
   constructor(
     private ApiService: ApiService,
     private router: Router,
@@ -35,20 +35,20 @@ dataRow: any[] = [];
     this.getAllRole()
   }
 
-async getAllRole() {
-  this.dataRow = await this.ApiService.getAPI("Account/GetAllRole").toPromise();
-  console.log("dataRow", this.dataRow);
-}
+  async getAllRole() {
+    this.dataRow = await this.ApiService.getAPI("Account/GetAllRole").toPromise();
+    console.log("dataRow", this.dataRow);
+  }
 
   async onclickRegister() {
     console.log(this.objRegister);
 
 
-      var data = await this.ApiService.postAPI("Auth/register",this.objRegister).toPromise();
-  console.log("data", data);
-  if (data.success) {
-    this.router.navigate(['/login']);
-  }
+    var data = await this.ApiService.postAPI("Auth/register", this.objRegister).toPromise();
+    console.log("data", data);
+    if (data.success) {
+      this.router.navigate(['/login']);
+    }
 
     // if (this.objRegister.email.length ===0){
     //   console.log("email");

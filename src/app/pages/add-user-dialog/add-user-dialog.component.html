@@ -1,0 +1,57 @@
+<mat-card>
+  <!-- <mat-card-title class="login-field" >เพิ่มผู้ใช้งาน</mat-card-title> -->
+      <mat-card-header>
+      <mat-card-title class="login-title">เพิ่มผู้ใช้งาน</mat-card-title>
+    </mat-card-header>
+  <mat-card-content>
+    <!-- Username -->
+    <mat-form-field appearance="fill" class="login-field">
+      <mat-label>Username</mat-label>
+      <input matInput [(ngModel)]="objRegister.userName" placeholder="Username">
+    </mat-form-field>
+
+
+    <!-- Password -->
+    <mat-form-field appearance="fill" class="login-field">
+      <mat-label>Password</mat-label>
+      <input matInput [(ngModel)]="objRegister.password" type="password" placeholder="Password">
+    </mat-form-field>
+
+    <!-- Confirm Password -->
+    <mat-form-field appearance="fill" class="login-field">
+      <mat-label>Confirm Password</mat-label>
+      <input matInput [(ngModel)]="objRegister.confirmPassword" type="password" placeholder="Confirm Password">
+    </mat-form-field>
+
+    <!-- Email -->
+    <mat-form-field appearance="fill" class="login-field">
+      <mat-label>Email</mat-label>
+      <input matInput [(ngModel)]="objRegister.email" type="email" placeholder="Email">
+    </mat-form-field>
+
+    <!-- User Role -->
+    <mat-form-field appearance="fill" class="login-field">
+      <mat-label>User Role</mat-label>
+      <mat-select [(ngModel)]="objRegister.roleId">
+        <mat-option *ngFor="let role of dataRow" [value]="role.id">
+          {{ role.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
+    <!-- <div style="text-align: right; margin-top: 20px;">
+      <button mat-raised-button color="primary" (click)="onSubmit()">บันทึก</button>
+      <button mat-raised-button color="warn" (click)="onCancel()">ยกเลิก</button>
+    </div> -->
+    <!-- ปุ่ม -->
+    <div class="btn-group">
+      <button mat-raised-button color="primary" class="mat-btb-Register" (click)="onSubmit()">
+        Save
+      </button>
+      <button mat-raised-button color="warn" class="mat-btb-Cancel" (click)="onCancel()">
+        Cancel
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>

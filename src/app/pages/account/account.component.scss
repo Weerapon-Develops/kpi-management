@@ -1,0 +1,56 @@
+mat-card {
+  background-color: #f5f7fa; // สีพื้นหลังอ่อน
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: #333;
+  }
+
+  table {
+    background-color: #ffffff; // สีพื้นหลังของตาราง
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+  }
+
+  th.mat-header-cell {
+    background-color: #e9edf2;
+    color: #333;
+    font-weight: 500;
+    border-bottom: 1px solid #d0d0d0;
+  }
+
+  td.mat-cell {
+    border-bottom: 1px solid #f0f0f0;
+    color: #444;
+  }
+
+  td.mat-cell:last-child {
+    text-align: center;
+  }
+
+  input[matInput] {
+    width: 100%;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #fcfcfc;
+  }
+
+  button.mat-icon-button {
+    margin: 0 4px;
+  }
+}
+
+//ปรับ mat-header-cell
+mat-header-cell {
+  justify-content: center !important;
+  align-items: center !important;
+  display: flex !important;
+}
+
+
