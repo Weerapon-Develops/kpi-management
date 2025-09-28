@@ -94,10 +94,10 @@ export class KpiComponent implements OnInit {
 
   }
 
-  // getRoleName(roleId: string | number): string {
-  //   const role = this.dataGetAllRole.find(r => r.id === roleId);
-  //   return role ? role.name : roleId.toString();
-  // }
+  getRoleName(assignedUser: string | number): string {
+    const role = this.dataGetAllUser.find(r => r.id === assignedUser);
+    return role ? role.username : assignedUser.toString();
+  }
 
 
 
