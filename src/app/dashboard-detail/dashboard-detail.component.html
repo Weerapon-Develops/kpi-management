@@ -1,0 +1,29 @@
+<!-- <div style="width: 400px; margin: auto;">
+  <canvas baseChart
+          [data]="pieChartData"
+          [options]="pieChartOptions"
+          [type]="pieChartType">
+  </canvas>
+</div> -->
+<div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+
+  <!-- Pie Chart -->
+  <div style="width: 400px; margin: 20px;">
+    <canvas baseChart
+            [data]="pieChartData"
+            [options]="pieChartOptions"
+            [type]="pieChartType">
+    </canvas>
+  </div>
+
+  <!-- Bar Chart -->
+  <div style="width: 600px; margin: 20px;">
+    <canvas baseChart
+            [data]="barChartData"
+            [options]="barChartOptions"
+            [type]="barChartType">
+    </canvas>
+  </div>
+
+</div>
+

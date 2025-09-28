@@ -17,7 +17,7 @@ const routes: Routes = [
     component: DashboardComponent,
     canActivate: [AuthGuardService],
     children: [
-      { path: '', redirectTo: 'kpi', pathMatch: 'full' },
+      { path: '', redirectTo: 'dashboardList', pathMatch: 'full' },
       {
         path: 'account',
         loadComponent: () => import('./pages/account/account.component').then(m => m.AccountComponent)
@@ -25,6 +25,10 @@ const routes: Routes = [
       {
         path: 'kpi',
         loadComponent: () => import('./pages/kpi/kpi.component').then(m => m.KpiComponent)
+      },
+      {
+        path: 'dashboardList',
+        loadComponent: () => import('./dashboard-detail/dashboard-detail.component').then(m => m.DashboardDetailComponent)
       }
     ]
 
