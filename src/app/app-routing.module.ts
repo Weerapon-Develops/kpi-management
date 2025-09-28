@@ -17,6 +17,7 @@ const routes: Routes = [
     component: DashboardComponent,
     canActivate: [AuthGuardService],
     children: [
+      { path: '', redirectTo: 'kpi', pathMatch: 'full' },
       {
         path: 'account',
         loadComponent: () => import('./pages/account/account.component').then(m => m.AccountComponent)
@@ -27,12 +28,6 @@ const routes: Routes = [
       }
     ]
 
-    // children: [
-    //   { path: 'account', component: AccountComponent },
-    //   // เพิ่มหน้าอื่น ๆ เช่น:
-    //   // { path: 'settings/profile', component: ProfileComponent },
-    //   // { path: 'messages', component: MessagesComponent }
-    // ]
   }
 ];
 
