@@ -114,17 +114,42 @@ export class AccountComponent implements OnInit {
   }
 
 
-  saveUser(user: User) {
+  // saveUser(user: User) {
+  //   if (!this.editedUser) return;
+
+  //   const index = this.dataRow.findIndex(u => u.id === user.id);
+  //   if (index !== -1) {
+  //     this.dataRow[index] = { ...this.editedUser, updatedAt: new Date() };
+  //   }
+
+  //   this.editedRowId = null;
+  //   this.editedUser = null;
+  // }
+  async saveUser(user: User) {
     if (!this.editedUser) return;
 
-    const index = this.dataRow.findIndex(u => u.id === user.id);
-    if (index !== -1) {
-      this.dataRow[index] = { ...this.editedUser, updatedAt: new Date() };
-    }
+    const payload = {
+      id: this.editedUser.id,
+      username: this.editedUser.username,
+      email: this.editedUser.email,
+      roleId: this.editedUser.roleId
+    };
+    console.log(JSON.stringify(payload));
 
-    this.editedRowId = null;
-    this.editedUser = null;
+    try {
+      const response = await this.ApiService.postAPI("Account/UpdateUser", payload).toPromise();
+      if (response?.success) {
+        this.dataRow = this.dataRow.map(u =>
+          u.id === user.id ? { ...response.user } : u
+        );
+        this.editedRowId = null;
+        this.editedUser = null;
+      }
+    } catch (error) {
+      console.error("Update error:", error);
+    }
   }
+
 
 
   async deleteUser(id: number): Promise<void> {
