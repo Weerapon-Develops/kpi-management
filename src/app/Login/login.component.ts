@@ -53,7 +53,7 @@ export class LoginComponent {
 
       if (loginres.success) {
         console.log("Success");
-        localStorage.setItem('token', loginres.token);
+        localStorage.setItem('token', loginres.data);
         this.router.navigate(['dashboard']);
         this.isShowMessage = false
 

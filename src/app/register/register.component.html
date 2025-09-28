@@ -61,11 +61,22 @@
           <input matInput [(ngModel)]="objRegister.confirmPassword" type="password" placeholder="Confirm Password">
         </mat-form-field>
 
-                <!-- Email -->
+        <!-- Email -->
         <mat-form-field appearance="fill" class="login-field">
           <mat-label>Email</mat-label>
           <input matInput [(ngModel)]="objRegister.email" type="email" placeholder="Email">
         </mat-form-field>
+
+        <!-- User Role -->
+        <mat-form-field appearance="fill" class="login-field">
+          <mat-label>User Role</mat-label>
+          <mat-select [(ngModel)]="objRegister.roleId">
+            <mat-option *ngFor="let role of dataRow" [value]="role.id">
+              {{ role.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
 
         <!-- ปุ่ม -->
         <div class="btn-group">
@@ -81,4 +92,3 @@
     </mat-card-content>
   </mat-card>
 </div>
-

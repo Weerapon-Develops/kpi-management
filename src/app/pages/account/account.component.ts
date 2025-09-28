@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { RoleLevelService } from '@services/role-level.service';
 
 @Component({
   selector: 'app-account',
@@ -14,11 +15,20 @@ import { MatCardModule } from '@angular/material/card';
 
 export class AccountComponent implements OnInit {
 
-  constructor() { }
+  constructor(private roleLevelService: RoleLevelService) { }
 
   ngOnInit() {
-    console.log("Account");
+  this.roleLevelService.fetchRoleLevel(); // เรียกครั้งเดียวตอนเริ่ม
+  this.roleLevelService.roleLevel$.subscribe(data => {
+    if (data) {
+      this.useRoleLevel(data);
+    }
+  });
+}
 
-  }
+useRoleLevel(data: any) {
+  console.log( JSON.stringify(data) );
+
+}
 
 }

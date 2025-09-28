@@ -49,6 +49,8 @@
   min-height: 100vh;
   background: #f5f7fa;
   padding: 20px;
+  position: relative;
+  z-index: 0;
 }
 
 .login-card-header {

@@ -11,7 +11,12 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { AlertProvider } from '../Provider/alert.provider';
+import { ApiService } from '@services/api.service';
+import { HttpHeaders } from '@angular/common/http';
+import { RoleLevelService } from '@services/role-level.service';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -19,13 +24,14 @@ import { RouterModule } from '@angular/router';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
   imports: [CommonModule, FormsModule, ReactiveFormsModule, MatInputModule,
-    MatCardModule,MatSidenavModule,MatToolbarModule,MatListModule,MatPaginatorModule,
-  MatTableModule,MatListModule,SidebarComponent,RouterModule],
+    MatCardModule, MatSidenavModule, MatToolbarModule, MatListModule, MatPaginatorModule,
+    MatTableModule, MatListModule, SidebarComponent, RouterModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class DashboardComponent implements OnInit {
 
-    isSidebarCollapsed = false;
+  isSidebarCollapsed = false;
+  dataRoleLevel: any[] = [];
 
   onSidebarToggle() {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
@@ -33,7 +39,25 @@ export class DashboardComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {
-  }
+  constructor(
+    private ApiService: ApiService,
+    private router: Router,
+    private alertProvider: AlertProvider,
+  private roleLevelService: RoleLevelService) { }
+
+ngOnInit() {
+  this.roleLevelService.fetchRoleLevel();
+  this.roleLevelService.roleLevel$.subscribe(data => {
+    if (data) {
+      this.useRoleLevel(data);
+    }
+  });
+}
+
+useRoleLevel(data: any) {
+  // console.log(data);
+
+}
+
 
 }

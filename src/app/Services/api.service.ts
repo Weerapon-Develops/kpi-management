@@ -45,6 +45,19 @@ export class ApiService {
       );
   }
 
+  getAPIWithAuth(strUrl: string): Observable<any> {
+  if (!this.token) {
+
+    this.token = this.token = localStorage.getItem('token') ?? '';
+    // console.error('Token is missing!');
+  }
+
+  return this.http.get<any>(this.ServerApiUrl + "/" + strUrl, { headers: this.getHeaderContentTypeJson() })
+    .pipe(
+      catchError(this.handleError<any>('getAPIWithAuth'))
+    );
+}
+
   async postAPIAsync(strUrl: string, objBody: any, resolveCallBack?: Function | null, rejectCallBack?: Function | null): Promise<Observable<any>> {
     return new Promise<Observable<any>>((resolve, reject) => {
       this.http.post<any>(this.ServerApiUrl + "/" + strUrl, objBody, { headers: this.getHeaderContentTypeJson() }).subscribe({
@@ -126,7 +139,7 @@ export class ApiService {
 
 
   async login(username: string, password: string) {
-    const responseLogin: any = await this.postAPIAsync("api/User/login", { userName: username, password: password });
+    const responseLogin: any = await this.postAPIAsync("Auth/login", { username: username, password: password });
     console.log(responseLogin);
 
     if (responseLogin.success) {
