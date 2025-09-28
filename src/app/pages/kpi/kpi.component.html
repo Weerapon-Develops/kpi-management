@@ -21,8 +21,8 @@
     <ng-container matColumnDef="title">
       <th mat-header-cell *matHeaderCellDef> Title </th>
       <td mat-cell *matCellDef="let user">
-        <ng-container *ngIf="editedUser && editedRowId === user.id; else viewTitle">
-          <input matInput [(ngModel)]="editedUser.title" />
+        <ng-container *ngIf="editedKPI && editedRowId === user.id; else viewTitle">
+          <input matInput [(ngModel)]="editedKPI.title" />
         </ng-container>
         <ng-template #viewTitle>{{ user.title }}</ng-template>
       </td>
@@ -31,8 +31,8 @@
     <ng-container matColumnDef="description">
       <th mat-header-cell *matHeaderCellDef> Description </th>
       <td mat-cell *matCellDef="let user">
-        <ng-container *ngIf="editedUser && editedRowId === user.id; else viewDescription">
-          <input matInput [(ngModel)]="editedUser.description" />
+        <ng-container *ngIf="editedKPI && editedRowId === user.id; else viewDescription">
+          <input matInput [(ngModel)]="editedKPI.description" />
         </ng-container>
         <ng-template #viewDescription>{{ user.description }}</ng-template>
       </td>
@@ -43,8 +43,8 @@
     <ng-container matColumnDef="targetValue">
       <th mat-header-cell *matHeaderCellDef> TargetValue </th>
       <td mat-cell *matCellDef="let user">
-        <ng-container *ngIf="editedUser && editedRowId === user.id; else viewTargetValue">
-          <input matInput [(ngModel)]="editedUser.actualValue" />
+        <ng-container *ngIf="editedKPI && editedRowId === user.id; else viewTargetValue">
+          <input matInput [(ngModel)]="editedKPI.actualValue" />
         </ng-container>
         <ng-template #viewTargetValue>{{ user.targetValue }}</ng-template>
       </td>
@@ -55,8 +55,8 @@
     <ng-container matColumnDef="actualValue">
       <th mat-header-cell *matHeaderCellDef> ActualValue </th>
       <td mat-cell *matCellDef="let user">
-        <ng-container *ngIf="editedUser && editedRowId === user.id; else viewActualValue">
-          <input matInput [(ngModel)]="editedUser.actualValue" />
+        <ng-container *ngIf="editedKPI && editedRowId === user.id; else viewActualValue">
+          <input matInput [(ngModel)]="editedKPI.actualValue" />
         </ng-container>
         <ng-template #viewActualValue>{{ user.actualValue }}</ng-template>
       </td>
@@ -68,9 +68,9 @@
     <ng-container matColumnDef="status">
       <th mat-header-cell *matHeaderCellDef> Status </th>
       <td mat-cell *matCellDef="let user">
-        <ng-container *ngIf="editedUser && editedRowId === user.id; else viewStatus">
+        <ng-container *ngIf="editedKPI && editedRowId === user.id; else viewStatus">
           <mat-form-field appearance="fill" style="width: 100%;">
-            <mat-select [(ngModel)]="editedUser.status">
+            <mat-select [(ngModel)]="editedKPI.status">
               <mat-option *ngFor="let status of dataStatus" [value]="status.value">
                 {{ status.label }}
               </mat-option>
@@ -88,9 +88,9 @@
     <ng-container matColumnDef="assignedUser">
       <th mat-header-cell *matHeaderCellDef> Employee </th>
       <td mat-cell *matCellDef="let user">
-        <ng-container *ngIf="editedUser && editedRowId === user.id; else viewRole">
+        <ng-container *ngIf="editedKPI && editedRowId === user.id; else viewRole">
           <mat-form-field appearance="fill" style="width: 100%;">
-            <mat-select [(ngModel)]="editedUser.assignedUser">
+            <mat-select [(ngModel)]="editedKPI.assignedUser">
               <mat-option *ngFor="let role of dataGetAllUser" [value]="role.id">
                 {{ role.username }}
               </mat-option>
@@ -108,9 +108,9 @@
     <ng-container matColumnDef="startDate">
       <th mat-header-cell *matHeaderCellDef> Start Date </th>
       <td mat-cell *matCellDef="let user">
-        <ng-container *ngIf="editedUser && editedRowId === user.id; else viewDate">
+        <ng-container *ngIf="editedKPI && editedRowId === user.id; else viewDate">
           <mat-form-field appearance="fill" style="width: 100%;">
-            <input matInput [matDatepicker]="picker" [(ngModel)]="editedUser.startDate" placeholder="Choose a date" />
+            <input matInput [matDatepicker]="picker" [(ngModel)]="editedKPI.startDate" placeholder="Choose a date" />
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
@@ -124,9 +124,9 @@
     <ng-container matColumnDef="endDate">
       <th mat-header-cell *matHeaderCellDef> End Date </th>
       <td mat-cell *matCellDef="let user">
-        <ng-container *ngIf="editedUser && editedRowId === user.id; else viewEndDate">
+        <ng-container *ngIf="editedKPI && editedRowId === user.id; else viewEndDate">
           <mat-form-field appearance="fill" style="width: 100%;">
-            <input matInput [matDatepicker]="pickerEnd" [(ngModel)]="editedUser.endDate" placeholder="Choose a date" />
+            <input matInput [matDatepicker]="pickerEnd" [(ngModel)]="editedKPI.endDate" placeholder="Choose a date" />
             <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
             <mat-datepicker #pickerEnd></mat-datepicker>
           </mat-form-field>
@@ -153,7 +153,7 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef style="width: 130px; text-align: right;"> Actions </th>
       <td mat-cell *matCellDef="let user" style="width: 130px; text-align: right;">
-        <ng-container *ngIf="editedUser?.id === user.id; else editDelete">
+        <ng-container *ngIf="editedKPI?.id === user.id; else editDelete">
           <button mat-icon-button color="primary" (click)="saveUser(user)">
             <i class="fa-solid fa-floppy-disk"></i>
           </button>

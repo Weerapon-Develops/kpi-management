@@ -28,8 +28,9 @@ import { AddKpiDialogComponent } from '../add-kpi-dialog/add-kpi-dialog.componen
 })
 export class KpiComponent implements OnInit {
   dataRow: Kpi[] = [];
-  editedUser: Kpi | null = null;
-  displayedColumns: string[] = ['id', 'title', 'description', 'targetValue', 'actualValue', 'status', 'assignedUser', 'startDate', 'endDate', 'actions'];
+  editedKPI: Kpi | null = null;
+  displayedColumns: string[] = ['id', 'title', 'description', 'targetValue', 'actualValue', 'status',
+     'assignedUser', 'startDate', 'endDate', 'actions'];
   editedRowId: number | null = null;
   dataGetAllUser: any[] = [];
 
@@ -52,8 +53,8 @@ dataStatus: { label: string; value: string }[] = [
         this.useRoleLevel(data);
       }
     });
+    this.getGetAllKpi();
     this.getAllUser();
-    this.getAllRole();
   }
 
   openAddDialog(): void {
@@ -66,24 +67,25 @@ dataStatus: { label: string; value: string }[] = [
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log('New user:', result);
+        console.log('Json',JSON.stringify(result) );
         // เรียก API เพื่อเพิ่ม user
-        this.ApiService.postAPI("Auth/register", result).subscribe(res => {
+        this.ApiService.postAPI("Kpi/InsertKpi", result).subscribe(res => {
           if (res.success) {
-            this.dataRow.push(res.user); // หรือจะ reload ทั้ง list ก็ได้
-            this.getAllUser();
+            // this.dataRow.push(res.user);
+            // this.getGetAllKpi();
+            this.dataRow = [...this.dataRow, res.user];
           }
         });
       }
     });
   }
 
-  async getAllRole() {
+  async getAllUser() {
     this.dataGetAllUser = await this.ApiService.getAPI("Account/GetAllUser").toPromise();
     console.log("dataGetAllRole", this.dataGetAllUser);
   }
 
-  async getAllUser() {
+  async getGetAllKpi() {
     this.dataRow = await this.ApiService.getAPI("Kpi/GetAllKpi").toPromise();
     console.log("dataRow", this.dataRow);
   }
@@ -104,42 +106,44 @@ getStatusName(status: string | number): string {
 }
 
 
-
   editUser(user: Kpi) {
     this.editedRowId = user.id;
-    this.editedUser = { ...user }; // clone เพื่อแก้ไข
+    this.editedKPI = { ...user }; // clone เพื่อแก้ไข
   }
-
 
   cancelEdit() {
     this.editedRowId = null;
-    this.editedUser = null;
+    this.editedKPI = null;
   }
 
-
   async saveUser(user: Kpi) {
-    if (!this.editedUser) return;
+    if (!this.editedKPI) return;
 
-    // const payload = {
-    //   id: this.editedUser.id,
-    //   username: this.editedUser.username,
-    //   email: this.editedUser.email,
-    //   roleId: this.editedUser.roleId
-    // };
-    // console.log(JSON.stringify(payload));
+    const payload = {
+      id: this.editedKPI.id,
+      title: this.editedKPI.title,
+      description: this.editedKPI.description,
+      targetValue: this.editedKPI.targetValue,
+      actualValue: this.editedKPI.actualValue,
+      status: this.editedKPI.status,
+      assignedUser: this.editedKPI.assignedUser,
+      startDate: this.editedKPI.startDate,
+      endDate: this.editedKPI.endDate
+    };
+    console.log(JSON.stringify(payload));
 
-    // try {
-    //   const response = await this.ApiService.postAPI("Account/UpdateUser", payload).toPromise();
-    //   if (response?.success) {
-    //     this.dataRow = this.dataRow.map(u =>
-    //       u.id === user.id ? { ...response.user } : u
-    //     );
-    //     this.editedRowId = null;
-    //     this.editedUser = null;
-    //   }
-    // } catch (error) {
-    //   console.error("Update error:", error);
-    // }
+    try {
+      const response = await this.ApiService.postAPI("Account/UpdateUser", payload).toPromise();
+      if (response?.success) {
+        this.dataRow = this.dataRow.map(u =>
+          u.id === user.id ? { ...response.user } : u
+        );
+        this.editedRowId = null;
+        this.editedKPI = null;
+      }
+    } catch (error) {
+      console.error("Update error:", error);
+    }
   }
 
 
@@ -148,7 +152,8 @@ getStatusName(status: string | number): string {
     try {
       console.log("id", id);
 
-      const response = await this.ApiService.postAPI(`Account/DeleteUser/${id}`, {}).toPromise();
+      const response = await this.ApiService.postAPI(`Kpi/DeleteKpi/${id}`, {}).toPromise();
+
       console.log("Delete response:", response);
 
       if (response?.success) {
