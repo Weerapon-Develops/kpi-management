@@ -7,6 +7,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { ApiService } from '@services/api.service';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 
 @Component({
@@ -20,7 +22,9 @@ import { ApiService } from '@services/api.service';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatCardModule
+    MatCardModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ]
 })
 export class AddKpiDialogComponent {
@@ -43,7 +47,12 @@ export class AddKpiDialogComponent {
   public isShowMessage: boolean = true;
   num: any;
   formDisable: boolean = false;
-  dataRow: any[] = [];
+  dataGetAllUser: any[] = [];
+  dataStatus: { label: string; value: string }[] = [
+    { label: 'On Track', value: 'On Track' },
+    { label: 'At Risk', value: 'At Risk' },
+    { label: 'Off Track', value: 'Off Track' }
+  ];
 
   constructor(
     public dialogRef: MatDialogRef<AddKpiDialogComponent>,
@@ -52,13 +61,18 @@ export class AddKpiDialogComponent {
   ) { }
 
   ngOnInit() {
-    this.getAllUser();
+    this.getAllRole();
   }
 
-   async getAllUser() {
-    this.dataRow = await this.ApiService.getAPI("Kpi/GetAllKpi").toPromise();
-    console.log("dataRow", this.dataRow);
+  async getAllRole() {
+    this.dataGetAllUser = await this.ApiService.getAPI("Account/GetAllUser").toPromise();
+    console.log("dataGetAllRole", this.dataGetAllUser);
   }
+
+  //  async getAllUser() {
+  //   this.dataRow = await this.ApiService.getAPI("Kpi/GetAllKpi").toPromise();
+  //   console.log("dataRow", this.dataRow);
+  // }
 
   async onSubmit() {
     this.dialogRef.close(this.objRegister);

@@ -58,3 +58,14 @@
   border-radius: 6px;
   text-transform: uppercase;
 }
+
+.form-row {
+  display: flex;
+  gap: 16px; /* เว้นระยะห่างระหว่าง mat-form-field */
+  margin-bottom: 16px; /* เว้นระยะห่างระหว่างแถว */
+}
+
+.form-row .login-field {
+  flex: 1; /* ให้ mat-form-field ครึ่งแถวเท่ากัน */
+  min-width: 0; /* ป้องกัน overflow */
+}

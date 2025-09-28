@@ -1,53 +1,72 @@
 <mat-card>
 
-      <mat-card-header>
-      <mat-card-title class="login-title">เพิ่ม KPI</mat-card-title>
-    </mat-card-header>
+  <mat-card-header>
+    <mat-card-title class="login-title">เพิ่ม KPI</mat-card-title>
+  </mat-card-header>
   <mat-card-content>
+    <div class="form-container">
+      <div class="form-row">
+        <mat-form-field appearance="fill" class="login-field">
+          <mat-label>Title</mat-label>
+          <input matInput [(ngModel)]="objRegister.title" placeholder="Title">
+        </mat-form-field>
 
-    <mat-form-field appearance="fill" class="login-field">
-      <mat-label>Title</mat-label>
-      <input matInput [(ngModel)]="objRegister.title" placeholder="Title">
-    </mat-form-field>
+        <mat-form-field appearance="fill" class="login-field">
+          <mat-label>Description</mat-label>
+          <input matInput [(ngModel)]="objRegister.description" placeholder="Description">
+        </mat-form-field>
+      </div>
 
+      <div class="form-row">
+        <mat-form-field appearance="fill" class="login-field">
+          <mat-label>Target Value</mat-label>
+          <input matInput [(ngModel)]="objRegister.targetValue" type="number" placeholder="Target Value">
+        </mat-form-field>
 
+        <mat-form-field appearance="fill" class="login-field">
+          <mat-label>Actual Value</mat-label>
+          <input matInput [(ngModel)]="objRegister.actualValue" type="number" placeholder="Actual Value">
+        </mat-form-field>
+      </div>
 
-    <mat-form-field appearance="fill" class="login-field">
-      <mat-label>Description</mat-label>
-      <input matInput [(ngModel)]="objRegister.description"  placeholder="Description">
-    </mat-form-field>
+      <div class="form-row">
+        <mat-form-field appearance="fill" class="login-field">
+          <mat-label>Status</mat-label>
+          <mat-select [(ngModel)]="objRegister.status">
+            <mat-option *ngFor="let role of dataStatus" [value]="role.label">
+              {{ role.label }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
 
+        <mat-form-field appearance="fill" class="login-field">
+          <mat-label>Employee</mat-label>
+          <mat-select [(ngModel)]="objRegister.assignedUser">
+            <mat-option *ngFor="let role of dataGetAllUser" [value]="role.id">
+              {{ role.username }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
 
-    <mat-form-field appearance="fill" class="login-field">
-      <mat-label>Target Value</mat-label>
-      <input matInput [(ngModel)]="objRegister.targetValue" type="number" placeholder="Target Value">
-    </mat-form-field>
+      <div class="form-row">
+        <mat-form-field appearance="fill" class="login-field">
+          <mat-label>Start Date</mat-label>
+          <input matInput [matDatepicker]="pickerStart" [(ngModel)]="objRegister.startDate"
+            placeholder="Choose a start date" />
+          <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+          <mat-datepicker #pickerStart></mat-datepicker>
+        </mat-form-field>
 
-
-    <mat-form-field appearance="fill" class="login-field">
-      <mat-label>Actual Value</mat-label>
-      <input matInput [(ngModel)]="objRegister.actualValue" type="number" placeholder="Actual Value">
-    </mat-form-field>
-
-
-    <mat-form-field appearance="fill" class="login-field">
-      <mat-label>User Role</mat-label>
-      <mat-select [(ngModel)]="objRegister.assignedUser">
-        <mat-option *ngFor="let role of dataRow" [value]="role.id">
-          {{ role.name }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-      <!-- title: string;
-  description: string;
-  targetValue: number;
-  actualValue: number;
-  assignedUser: number;
-  status: string;
-  startDate: Date;
-  endDate: Date; -->
-
+        <mat-form-field appearance="fill" class="login-field">
+          <mat-label>End Date</mat-label>
+          <input matInput [matDatepicker]="pickerEnd" [(ngModel)]="objRegister.endDate"
+            placeholder="Choose an end date" />
+          <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+          <mat-datepicker #pickerEnd></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
 
 
     <div class="btn-group">

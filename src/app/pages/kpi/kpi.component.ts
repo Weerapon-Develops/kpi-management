@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { AddKpiDialogComponent } from '../add-kpi-dialog/add-kpi-dialog.component';
 @Component({
   selector: 'app-kpi',
   templateUrl: './kpi.component.html',
@@ -38,8 +39,6 @@ dataStatus: { label: string; value: string }[] = [
   { label: 'Off Track', value: 'Off Track' }
 ];
 
-
-
   constructor(private roleLevelService: RoleLevelService,
     private ApiService: ApiService,
     private router: Router,
@@ -58,7 +57,7 @@ dataStatus: { label: string; value: string }[] = [
   }
 
   openAddDialog(): void {
-    const dialogRef = this.dialog.open(AddUserDialogComponent, {
+    const dialogRef = this.dialog.open(AddKpiDialogComponent, {
       width: '700px',
       maxWidth: '95vw',
       data: { roles: this.dataGetAllUser },
