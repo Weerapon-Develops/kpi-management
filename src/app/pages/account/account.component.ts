@@ -82,12 +82,12 @@ export class AccountComponent implements OnInit {
 
   async getAllRole() {
     this.dataGetAllRole = await this.ApiService.getAPI("Account/GetAllRole").toPromise();
-    console.log("dataGetAllRole", this.dataGetAllRole);
+    // console.log("dataGetAllRole", this.dataGetAllRole);
   }
 
   async getAllUser() {
     this.dataRow = await this.ApiService.getAPI("Account/GetAllUser").toPromise();
-    console.log("dataRow", this.dataRow);
+    // console.log("dataRow", this.dataRow);
   }
 
   useRoleLevel(data: any) {
@@ -114,17 +114,6 @@ export class AccountComponent implements OnInit {
   }
 
 
-  // saveUser(user: User) {
-  //   if (!this.editedUser) return;
-
-  //   const index = this.dataRow.findIndex(u => u.id === user.id);
-  //   if (index !== -1) {
-  //     this.dataRow[index] = { ...this.editedUser, updatedAt: new Date() };
-  //   }
-
-  //   this.editedRowId = null;
-  //   this.editedUser = null;
-  // }
   async saveUser(user: User) {
     if (!this.editedUser) return;
 
@@ -170,10 +159,6 @@ export class AccountComponent implements OnInit {
     }
   }
 
-
-  openAddUser() {
-
-  }
 
 }
 interface User {

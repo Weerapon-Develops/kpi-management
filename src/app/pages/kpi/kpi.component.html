@@ -1,4 +1,160 @@
 <mat-card>
-  <h2>KPI Page</h2>
-  <p>Welcome to the KPI section.</p>
+  <div style="padding: 16px;">
+    <h2 style="margin: 0;">KPI Work</h2>
+
+    <div style="margin-top: 12px; text-align: left;">
+      <button mat-raised-button color="primary" (click)="openAddDialog()">
+        <i class="fa-solid fa-plus" style="margin-right: 8px;"></i> เพิ่มผู้ใช้งาน
+      </button>
+    </div>
+  </div>
+
+
+
+  <table mat-table [dataSource]="dataRow" class="mat-elevation-z2" style="width: 100%;">
+
+    <!-- ID Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> Id </th>
+      <td mat-cell *matCellDef="let user"> {{ user.id }} </td>
+    </ng-container>
+
+    <!-- title Column -->
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef> Title </th>
+      <td mat-cell *matCellDef="let user">
+        <ng-container *ngIf="editedUser && editedRowId === user.id; else viewTitle">
+          <input matInput [(ngModel)]="editedUser.title" />
+        </ng-container>
+        <ng-template #viewTitle>{{ user.title }}</ng-template>
+      </td>
+    </ng-container>
+
+    <!-- Description Column -->
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Description </th>
+      <td mat-cell *matCellDef="let user">
+        <ng-container *ngIf="editedUser && editedRowId === user.id; else viewDescription">
+          <input matInput [(ngModel)]="editedUser.description" />
+        </ng-container>
+        <ng-template #viewDescription>{{ user.description }}</ng-template>
+      </td>
+    </ng-container>
+
+
+    <!-- TargetValue Column -->
+    <ng-container matColumnDef="targetValue">
+      <th mat-header-cell *matHeaderCellDef> TargetValue </th>
+      <td mat-cell *matCellDef="let user">
+        <ng-container *ngIf="editedUser && editedRowId === user.id; else viewTargetValue">
+          <input matInput [(ngModel)]="editedUser.actualValue" />
+        </ng-container>
+        <ng-template #viewTargetValue>{{ user.targetValue }}</ng-template>
+      </td>
+    </ng-container>
+
+
+
+    <!-- ActualValue Column -->
+    <ng-container matColumnDef="actualValue">
+      <th mat-header-cell *matHeaderCellDef> ActualValue </th>
+      <td mat-cell *matCellDef="let user">
+        <ng-container *ngIf="editedUser && editedRowId === user.id; else viewActualValue">
+          <input matInput [(ngModel)]="editedUser.actualValue" />
+        </ng-container>
+        <ng-template #viewActualValue>{{ user.actualValue }}</ng-template>
+      </td>
+    </ng-container>
+
+
+
+    <!-- Status Column -->
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Status </th>
+      <td mat-cell *matCellDef="let user">
+        <ng-container *ngIf="editedUser && editedRowId === user.id; else viewStatus">
+          <input matInput [(ngModel)]="editedUser.status" />
+        </ng-container>
+        <ng-template #viewStatus>{{ user.status }}</ng-template>
+      </td>
+    </ng-container>
+
+     <!-- Employee Column -->
+    <ng-container matColumnDef="assignedUser">
+      <th mat-header-cell *matHeaderCellDef> Employee </th>
+      <td mat-cell *matCellDef="let user">
+        <ng-container *ngIf="editedUser && editedRowId === user.id; else viewRole">
+          <mat-form-field appearance="fill" style="width: 100%;">
+            <mat-select [(ngModel)]="editedUser.assignedUser">
+              <mat-option *ngFor="let role of dataGetAllUser" [value]="role.id">
+                {{ role.username }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+        <ng-template #viewRole>
+          <!-- {{ getRoleName(user.roleId) }} -->
+        </ng-template>
+      </td>
+    </ng-container>
+
+
+
+      <!-- CreatedAt Column -->
+    <ng-container matColumnDef="startDate">
+      <th mat-header-cell *matHeaderCellDef> Created </th>
+      <td mat-cell *matCellDef="let user"> {{ user.startDate | date:'dd/MM/yyyy HH:mm' }} </td>
+    </ng-container>
+
+    <!-- UpdatedAt Column -->
+    <ng-container matColumnDef="endDate">
+      <th mat-header-cell *matHeaderCellDef> Updated </th>
+      <td mat-cell *matCellDef="let user"> {{ user.endDate | date:'dd/MM/yyyy HH:mm' }} </td>
+    </ng-container>
+
+
+
+    <!-- CreatedAt Column -->
+    <!-- <ng-container matColumnDef="createdAt">
+      <th mat-header-cell *matHeaderCellDef> Created </th>
+      <td mat-cell *matCellDef="let user"> {{ user.createdAt | date:'dd/MM/yyyy HH:mm' }} </td>
+    </ng-container> -->
+
+    <!-- UpdatedAt Column -->
+    <!-- <ng-container matColumnDef="updatedAt">
+      <th mat-header-cell *matHeaderCellDef> Updated </th>
+      <td mat-cell *matCellDef="let user"> {{ user.updatedAt | date:'dd/MM/yyyy HH:mm' }} </td>
+    </ng-container> -->
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef style="width: 130px; text-align: right;"> Actions </th>
+      <td mat-cell *matCellDef="let user" style="width: 130px; text-align: right;">
+        <ng-container *ngIf="editedUser?.id === user.id; else editDelete">
+          <button mat-icon-button color="primary" (click)="saveUser(user)">
+            <i class="fa-solid fa-floppy-disk"></i>
+            <!-- <mat-icon>save</mat-icon> -->
+          </button>
+          <button mat-icon-button color="warn" (click)="cancelEdit()">
+            <i class="fa-solid fa-rotate-right"></i>
+            <!-- <mat-icon>cancel</mat-icon> -->
+          </button>
+        </ng-container>
+        <ng-template #editDelete>
+          <button mat-icon-button color="accent" (click)="editUser(user)">
+            <i class="fa-solid fa-edit"></i>
+
+            <!-- <mat-icon>edit</mat-icon> -->
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteUser(user.id)">
+            <i class="fa-solid fa-trash"></i>
+            <!-- <mat-icon>delete</mat-icon> -->
+          </button>
+        </ng-template>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
 </mat-card>
