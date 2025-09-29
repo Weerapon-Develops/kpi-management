@@ -8,6 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { AlertProvider } from '../Provider/alert.provider';
 import { Router } from '@angular/router';
 import { ApiService } from '../Services/api.service';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -42,20 +43,58 @@ export class RegisterComponent implements OnInit {
 
   async onclickRegister() {
     console.log(this.objRegister);
-
-
-    var data = await this.ApiService.postAPI("Auth/register", this.objRegister).toPromise();
-    console.log("data", data);
-    if (data.success) {
-      this.router.navigate(['/login']);
+    if (this.objRegister.userName == "") {
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'โปรดระบุ UserName',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง'
+      });
+    } else if (this.objRegister.password == "") {
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'โปรดระบุ Password',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง'
+      });
+    } else if (this.objRegister.confirmPassword == "") {
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'โปรดระบุ Confirm Password',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง'
+      });
+    } else if (this.objRegister.email == "") {
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'โปรดระบุ Email',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง'
+      });
+    } else if (this.objRegister.roleId == null) {
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'โปรดระบุ User Role',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง'
+      });
+    } else if (this.objRegister.password != "" && this.objRegister.confirmPassword != "") {
+      if (this.objRegister.password === this.objRegister.confirmPassword) {
+      } else {
+        Swal.fire({
+          title: 'รหัสผ่านไม่ตรงกัน',
+          text: 'กรุณากรอกรหัสผ่านให้ตรงกันทั้งสองช่อง',
+          icon: 'error',
+          confirmButtonText: 'ตกลง'
+        });
+      }
+    } else {
+      var data = await this.ApiService.postAPI("Auth/register", this.objRegister).toPromise();
+      console.log("data", data);
+      if (data.success) {
+        this.router.navigate(['/login']);
+      }
     }
-
-    // if (this.objRegister.email.length ===0){
-    //   console.log("email");
-
-    //   this.alertProvider.toastrWarning('โปรดระบุ Email');
-    // }
-
   }
 
   onclickCancel() {

@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { ApiService } from '../Services/api.service';
 import { MatButtonModule } from '@angular/material/button';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -39,19 +40,39 @@ export class LoginComponent {
   async onclickSignIn() {
 
     if (this.objLogin.userName.length === 0) {
-      this.alertProvider.toastrWarning('โปรดระบุ Username');
+
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'โปรดระบุ Username',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง'
+      });
       return
     } else if (this.objLogin.password.length === 0) {
-      this.alertProvider.toastrWarning('โปรดระบุ Password');
+
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'โปรดระบุ Password',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง'
+      });
+
       return
     } else {
-      // this.router.navigate(['landing-page']);
-      // this.alertProvider.toastrSuccess('เข้าสู่ระบบสำเร็จ');
-      // }
+
       const loginres = await this.ApiService.login(this.objLogin.userName, this.objLogin.password);
       console.log("result", loginres);
 
       if (loginres.success) {
+        Swal.fire({
+          title: 'สำเร็จ',
+          text: 'เข้าสู่ระบบสำเร็จ',
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 2000, // หน่วยเป็นมิลลิวินาที (2000 = 2 วินาที)
+          timerProgressBar: true
+        });
+
         console.log("Success");
         localStorage.setItem('token', loginres.data);
         this.router.navigate(['dashboard']);
@@ -59,6 +80,13 @@ export class LoginComponent {
 
       }
       else {
+
+        Swal.fire({
+          title: 'ผิดพลาด',
+          text: 'UserName หรือ Password ผิดพลาด',
+          icon: 'warning',
+          confirmButtonText: 'ตกลง'
+        });
         this.strMessage = loginres.message;
         this.isShowMessage = true;
       }

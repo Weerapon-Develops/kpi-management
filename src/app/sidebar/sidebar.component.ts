@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { Router, RouterModule } from '@angular/router';
 import { RoleLevelService } from '@services/role-level.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-sidebar',
@@ -55,35 +56,6 @@ export class SidebarComponent implements OnInit {
     return menuItem;
   }
 
-
-  //Mocup
-  // menuItems: MenuItem[] = [
-  //   {
-  //     icon: 'fa-solid fa-folder-open',
-  //     label: 'Master',
-  //     isOpen: false,
-  //     children: [
-  //       { icon: 'fa-solid fa-circle-user', label: 'Account', route: 'account' },
-  //       { icon: 'fa-solid fa-users', label: 'ManageRole', route: 'account/projects' }
-  //     ]
-  //   },
-  //   {
-  //     icon: 'fa-solid fa-list-ul',
-  //     label: 'Transaction',
-  //     isOpen: false,
-  //     children: [
-  //       { icon: 'fa-solid fa-clipboard-check', label: 'KPI', route: 'kpi' },
-  //       { icon: 'fa-solid fa-clipboard-check', label: 'Work Performance', route: 'settings/security' }
-  //     ]
-  //   },
-  //   {
-  //     icon: 'fa-solid fa-right-from-bracket',
-  //     label: 'Logout',
-  //     route: '/login'
-  //   }
-  // ];
-
-
   toggleSidebar() {
     console.log("toggleSidebar");
 
@@ -117,8 +89,23 @@ export class SidebarComponent implements OnInit {
 
 
   handleLogout() {
-    localStorage.removeItem('token');
-    this.router.navigate(['/login']);
+    Swal.fire({
+      title: 'คำเตือน',
+      text: 'คุณต้องการออกจากระบบหรือไม่?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'ออกจากระบบ',
+      cancelButtonText: 'ยกเลิก'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.removeItem('token');
+        this.router.navigate(['/login']);
+      }
+    });
+
+
   }
 
 

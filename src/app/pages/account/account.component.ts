@@ -13,6 +13,7 @@ import { RoleLevelService } from '@services/role-level.service';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { AddUserDialogComponent } from '../add-user-dialog/add-user-dialog.component';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -82,12 +83,10 @@ export class AccountComponent implements OnInit {
 
   async getAllRole() {
     this.dataGetAllRole = await this.ApiService.getAPI("Account/GetAllRole").toPromise();
-    // console.log("dataGetAllRole", this.dataGetAllRole);
   }
 
   async getAllUser() {
     this.dataRow = await this.ApiService.getAPI("Account/GetAllUser").toPromise();
-    // console.log("dataRow", this.dataRow);
   }
 
   useRoleLevel(data: any) {
@@ -144,16 +143,43 @@ export class AccountComponent implements OnInit {
   async deleteUser(id: number): Promise<void> {
     try {
       console.log("id", id);
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'คุณต้องการลบข้อมูลหรือไม่?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'ตกลง',
+        cancelButtonText: 'ยกเลิก'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const response = await this.ApiService.postAPI(`Account/DeleteUser/${id}`, {}).toPromise();
 
-      const response = await this.ApiService.postAPI(`Account/DeleteUser/${id}`, {}).toPromise();
-      console.log("Delete response:", response);
+          if (response?.success) {
+            this.dataRow = this.dataRow.filter(u => u.id !== id);
+            Swal.fire({
+              title: 'สำเร็จ',
+              text: 'ลบข้อมูลสำเร็จ',
+              icon: 'success',
+              showConfirmButton: false,
+              timer: 2000,
+              timerProgressBar: true
+            });
+          } else {
+            Swal.fire({
+              title: 'ลบข้อมูลไม่สำเร็จ',
+              text: response?.message,
+              icon: 'warning'
+            });
 
-      if (response?.success) {
-        this.dataRow = this.dataRow.filter(u => u.id !== id);
-        // Optional: show toast or snackbar here
-      } else {
-        console.warn("Delete failed:", response?.message || "Unknown error");
-      }
+          }
+
+        }
+      });
+
+
+
     } catch (error) {
       console.error("Delete error:", error);
     }
