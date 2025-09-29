@@ -28,8 +28,8 @@ export class SidebarComponent implements OnInit {
   ngOnInit() {
     this.roleLevelService.fetchRoleLevel();
     this.roleLevelService.roleLevel$.subscribe(data => {
-      if (data) {
-        this.useRoleLevel(data);
+      if (data.menuItems) {
+        this.useRoleLevel(data.menuItems);
       }
     });
   }

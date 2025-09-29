@@ -15,6 +15,7 @@ export class RoleLevelService {
     this.apiService.getAPIWithAuth("Auth/GetRoleLevel").subscribe({
       next: (data) => {
         this.roleLevelSubject.next(data);
+        localStorage.setItem('Role', data.role);
       },
       error: (err) => console.error("Error fetching RoleLevel:", err)
     });
