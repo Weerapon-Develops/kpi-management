@@ -9,10 +9,14 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
-import {  RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartData, ChartOptions, ChartType } from 'chart.js';
-
+import { ApiService } from '@services/api.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 @Component({
   selector: 'app-dashboard-detail',
   templateUrl: './dashboard-detail.component.html',
@@ -20,65 +24,166 @@ import { ChartConfiguration, ChartData, ChartOptions, ChartType } from 'chart.js
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule, MatInputModule,
     MatCardModule, MatSidenavModule, MatToolbarModule, MatListModule, MatPaginatorModule,
-    MatTableModule, MatListModule, RouterModule,BaseChartDirective],
+    MatTableModule, MatListModule, RouterModule, BaseChartDirective, MatFormFieldModule,
+    MatSelectModule, MatDatepickerModule, MatNativeDateModule, ReactiveFormsModule],
+
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class DashboardDetailComponent implements OnInit {
+  // Pie Chart
+  public pieChartUser: ChartData<'pie', number[], string | string[]> = {
+    labels: [],
+    datasets: []
+  };
 
-  //  // Mockup Data
-  // public pieChartData: ChartData<'pie', number[], string | string[]> = {
-  //   labels: ['KPI A', 'KPI B', 'KPI C'],
-  //   datasets: [
-  //     {
-  //       data: [40, 25, 35],
-  //       backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-  //     }
-  //   ]
-  // };
-
-  // public pieChartOptions: ChartOptions<'pie'> = {
-  //   responsive: true,
-  //   plugins: {
-  //     legend: {
-  //       position: 'top',
-  //     }
-  //   }
-  // };
-
-  // // ชนิด chart แบบ fix ไว้เป็น 'pie'
-  // public pieChartType: 'pie' = 'pie';
-
-    // ---------------- Pie Chart ----------------
+  // Pie Chart
   public pieChartData: ChartData<'pie', number[], string | string[]> = {
-    labels: ['KPI A', 'KPI B', 'KPI C'],
-    datasets: [
-      {
-        data: [40, 25, 35],
-        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-      }
-    ]
+    labels: [],
+    datasets: []
   };
-  public pieChartOptions: ChartOptions<'pie'> = { responsive: true };
-  public pieChartType: 'pie' = 'pie';
 
-  // ---------------- Bar Chart ----------------
+  // Bar Chart
   public barChartData: ChartData<'bar'> = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
-    datasets: [
-      { label: 'Sales 2024', data: [50, 60, 70, 80, 90], backgroundColor: '#36A2EB' },
-      { label: 'Sales 2025', data: [65, 75, 85, 95, 105], backgroundColor: '#FF6384' }
-    ]
+    labels: [],
+    datasets: []
   };
-  public barChartOptions: ChartOptions<'bar'> = {
-    responsive: true,
-    plugins: { legend: { position: 'top' } }
-  };
-  public barChartType: 'bar' = 'bar';
 
+  searchForm: FormGroup;
+  dataRow: any[] = [];
+  dataGetAllUser: any[] = [];
 
-  constructor() { }
+  dataStatus: { label: string; value: string }[] = [
+    { label: 'On Track', value: 'On Track' },
+    { label: 'At Risk', value: 'At Risk' },
+    { label: 'Off Track', value: 'Off Track' }
+  ];
+
+  constructor(private ApiService: ApiService, private fb: FormBuilder) {
+    this.searchForm = this.fb.group({
+      user: [''],
+      status: [''],
+      fromDate: [''],
+      toDate: ['']
+    });
+  }
 
   ngOnInit() {
+    this.getGetAllKpi();
+    this.getAllRole()
   }
+
+  async getAllRole() {
+    this.dataGetAllUser = await this.ApiService.getAPI("Account/GetAllUser").toPromise();
+    console.log("dataGetAllRole", this.dataGetAllUser);
+  }
+
+  async getGetAllKpi() {
+    this.dataRow = await this.ApiService.getAPI("Kpi/GetAllKpi").toPromise();
+    console.log("dataRow", this.dataRow);
+
+    for (let index = 0; index < this.dataRow.length; index++) {
+      const assignedId = Number(this.dataRow[index].assignedUser); // แปลงให้แน่ใจว่าเป็น number
+      const user = this.dataGetAllUser.find(u => u.id === assignedId);
+
+      if (user) {
+        this.dataRow[index].assignedName = user.username;
+      } else {
+        console.warn(`ไม่พบ user สำหรับ assignedUser: ${assignedId}`);
+        this.dataRow[index].assignedName = null;
+      }
+    }
+
+    console.log(this.dataRow);
+
+
+    // แปลงข้อมูลเป็น Chart Data
+    this.pieChartData = this.mapToPieChart(this.dataRow);
+    this.barChartData = this.mapToBarChart(this.dataRow);
+    this.pieChartUser = this.maptoPieUserChart(this.dataRow)
+  }
+
+    // ---------------- Pie Chart ----------------
+  maptoPieUserChart(data: any[]): ChartData<'pie', number[], string | string[]> {
+    return {
+      labels: data.map(d => d.assignedName),
+      datasets: [
+        {
+          data: data.map(d => d.status),
+          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+        }
+      ]
+    };
+  }
+
+  // ---------------- Pie Chart ----------------
+  mapToPieChart(data: any[]): ChartData<'pie', number[], string | string[]> {
+    return {
+      labels: data.map(d => d.title),
+      datasets: [
+        {
+          data: data.map(d => d.actualValue),
+          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+        }
+      ]
+    };
+  }
+
+  // ---------------- Bar Chart ----------------
+  mapToBarChart(data: any[]): ChartData<'bar'> {
+    return {
+      labels: data.map(d => d.title),
+      datasets: [
+        {
+          label: 'Target',
+          data: data.map(d => d.targetValue),
+          backgroundColor: '#36A2EB'
+        },
+        {
+          label: 'Actual',
+          data: data.map(d => d.actualValue),
+          backgroundColor: '#FF6384'
+        }
+      ]
+    };
+  }
+
+  async onSearch() {
+    const criteria = this.searchForm.value;
+    console.log("Search Criteria:", criteria);
+    console.log("dataRow", this.dataRow);
+
+    let filtered = this.dataRow;
+    if (criteria.user) {
+      console.log(filtered);
+
+      filtered = filtered.filter(x => x.assignedUser === criteria.user);
+    }
+    if (criteria.status) {
+      filtered = filtered.filter(x => x.status === criteria.status);
+    }
+
+
+    if (criteria.fromDate) {
+      // filtered = filtered.filter(x => new Date(x.date) >= new Date(criteria.fromDate));
+      filtered = filtered.filter(x => new Date(x.date).getTime() == criteria.fromDate.getTime());
+      console.log("2", filtered);
+
+    }
+    if (criteria.toDate) {
+      filtered = filtered.filter(x => new Date(x.date) <= new Date(criteria.toDate));
+    }
+
+    console.log(filtered);
+
+
+
+    // Update Chart
+    this.pieChartData = this.mapToPieChart(filtered);
+    this.barChartData = this.mapToBarChart(filtered);
+  }
+
 
 }

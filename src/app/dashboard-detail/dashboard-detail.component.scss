@@ -1,0 +1,10 @@
+.mat-btb-Register,
+.mat-btb-Cancel {
+  flex: 1;              /* ให้ปุ่มกว้างเท่ากัน */
+  max-width: 200px;     /* จำกัดไม่ให้กว้างเกิน */
+  font-weight: bold;
+  font-size: 0.9rem;
+  padding: 0.7rem 1rem;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
