@@ -15,6 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { AddKpiDialogComponent } from '../add-kpi-dialog/add-kpi-dialog.component';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-kpi',
   templateUrl: './kpi.component.html',
@@ -22,7 +23,7 @@ import { AddKpiDialogComponent } from '../add-kpi-dialog/add-kpi-dialog.componen
   standalone: true,
   imports: [CommonModule, FormsModule, MatCardModule, MatButtonModule,
     MatTableModule, MatInputModule, MatIconModule, MatButtonModule,
-    ReactiveFormsModule, MatSelectModule, MatDialogModule,MatDatepickerModule,
+    ReactiveFormsModule, MatSelectModule, MatDialogModule, MatDatepickerModule,
     MatNativeDateModule]
 
 })
@@ -30,15 +31,15 @@ export class KpiComponent implements OnInit {
   dataRow: Kpi[] = [];
   editedKPI: Kpi | null = null;
   displayedColumns: string[] = ['id', 'title', 'description', 'targetValue', 'actualValue', 'status',
-     'assignedUser', 'startDate', 'endDate', 'actions'];
+    'assignedUser', 'startDate', 'endDate', 'actions'];
   editedRowId: number | null = null;
   dataGetAllUser: any[] = [];
 
-dataStatus: { label: string; value: string }[] = [
-  { label: 'On Track', value: 'On Track' },
-  { label: 'At Risk', value: 'At Risk' },
-  { label: 'Off Track', value: 'Off Track' }
-];
+  dataStatus: { label: string; value: string }[] = [
+    { label: 'On Track', value: 'On Track' },
+    { label: 'At Risk', value: 'At Risk' },
+    { label: 'Off Track', value: 'Off Track' }
+  ];
 
   constructor(private roleLevelService: RoleLevelService,
     private ApiService: ApiService,
@@ -67,7 +68,7 @@ dataStatus: { label: string; value: string }[] = [
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log('Json',JSON.stringify(result) );
+        console.log('Json', JSON.stringify(result));
         // เรียก API เพื่อเพิ่ม user
         this.ApiService.postAPI("Kpi/InsertKpi", result).subscribe(res => {
           if (res.success) {
@@ -95,15 +96,23 @@ dataStatus: { label: string; value: string }[] = [
 
   }
 
-  getRoleName(assignedUser: string | number): string {
+  // getRoleName(assignedUser: string | number): string {
+  //   const role = this.dataGetAllUser.find(r => r.id === assignedUser);
+  //   return role ? role.username : assignedUser.toString();
+  // }
+  getRoleName(assignedUser: string | number | undefined | null): string {
+    if (assignedUser === undefined || assignedUser === null) return '';
+
     const role = this.dataGetAllUser.find(r => r.id === assignedUser);
-    return role ? role.username : assignedUser.toString();
+    return role ? role.username : String(assignedUser);
   }
 
-getStatusName(status: string | number): string {
-  const matched = this.dataStatus.find(s => s.value === status);
-  return matched ? matched.label : status.toString();
-}
+
+  getStatusName(status: string): string {
+    if (!status) return '';
+    const matched = this.dataStatus.find(s => s.value === status);
+    return matched ? matched.label : status;
+  }
 
 
   editUser(user: Kpi) {
@@ -116,7 +125,7 @@ getStatusName(status: string | number): string {
     this.editedKPI = null;
   }
 
-  async saveUser(user: Kpi) {
+  async saveKpi(dataKpi: Kpi) {
     if (!this.editedKPI) return;
 
     const payload = {
@@ -130,16 +139,20 @@ getStatusName(status: string | number): string {
       startDate: this.editedKPI.startDate,
       endDate: this.editedKPI.endDate
     };
-    console.log(JSON.stringify(payload));
+
+    // console.log(JSON.stringify(payload));
 
     try {
-      const response = await this.ApiService.postAPI("Account/UpdateUser", payload).toPromise();
+      const response = await this.ApiService.postAPI(`Kpi/UpdateKpi/${this.editedKPI.id}`, payload).toPromise();
+
       if (response?.success) {
-        this.dataRow = this.dataRow.map(u =>
-          u.id === user.id ? { ...response.user } : u
-        );
-        this.editedRowId = null;
-        this.editedKPI = null;
+        this.dataRow = [];
+        this.getGetAllKpi()
+          // this.dataRow = this.dataRow.map(u =>
+          //   u.id === dataKpi.id ? { ...response.data } : u
+          // );
+          this.editedRowId = null;
+          this.editedKPI = null;
       }
     } catch (error) {
       console.error("Update error:", error);
@@ -150,18 +163,42 @@ getStatusName(status: string | number): string {
 
   async deleteUser(id: number): Promise<void> {
     try {
-      console.log("id", id);
 
-      const response = await this.ApiService.postAPI(`Kpi/DeleteKpi/${id}`, {}).toPromise();
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'คุณต้องการลบข้อมูลหรือไม่?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'ตกลง',
+        cancelButtonText: 'ยกเลิก'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const response = await this.ApiService.postAPI(`Kpi/DeleteKpi/${id}`, {}).toPromise();
 
-      console.log("Delete response:", response);
+          if (response?.success) {
+            this.dataRow = this.dataRow.filter(u => u.id !== id);
+            Swal.fire({
+              title: 'สำเร็จ',
+              text: 'ลบข้อมูลสำเร็จ',
+              icon: 'success',
+              showConfirmButton: false,
+              timer: 2000,
+              timerProgressBar: true
+            });
+          } else {
+            Swal.fire({
+              title: 'ลบข้อมูลไม่สำเร็จ',
+              text: response?.message,
+              icon: 'warning'
+            });
 
-      if (response?.success) {
-        this.dataRow = this.dataRow.filter(u => u.id !== id);
-        // Optional: show toast or snackbar here
-      } else {
-        console.warn("Delete failed:", response?.message || "Unknown error");
-      }
+          }
+
+        }
+      });
+
     } catch (error) {
       console.error("Delete error:", error);
     }

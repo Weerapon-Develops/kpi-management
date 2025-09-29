@@ -140,7 +140,6 @@ export class ApiService {
 
   async login(username: string, password: string) {
     const responseLogin: any = await this.postAPIAsync("Auth/login", { username: username, password: password });
-    console.log(responseLogin);
 
     if (responseLogin.success) {
         this.token = responseLogin.data;

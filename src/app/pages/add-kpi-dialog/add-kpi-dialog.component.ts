@@ -9,6 +9,7 @@ import { MatCardModule } from '@angular/material/card';
 import { ApiService } from '@services/api.service';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -69,17 +70,85 @@ export class AddKpiDialogComponent {
     console.log("dataGetAllRole", this.dataGetAllUser);
   }
 
-  //  async getAllUser() {
-  //   this.dataRow = await this.ApiService.getAPI("Kpi/GetAllKpi").toPromise();
-  //   console.log("dataRow", this.dataRow);
-  // }
 
   async onSubmit() {
-    this.dialogRef.close(this.objRegister);
+    if (this.objRegister.title == "") {
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'โปรดระบุ Title',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง'
+      });
+    } else if (this.objRegister.description == "") {
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'โปรดระบุ Description',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง'
+      });
+    } else if (this.objRegister.targetValue == 0) {
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'โปรดระบุ Target Value',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง'
+      });
+    } else if (this.objRegister.actualValue == 0) {
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'โปรดระบุ Actual Value',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง'
+      });
+    } else if (this.objRegister.assignedUser == 0) {
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'โปรดระบุ Assigned User',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง'
+      });
+    } else if (this.objRegister.status == "") {
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'โปรดระบุ Status',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง'
+      });
+    } else if (this.objRegister.startDate == null) {
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'โปรดระบุ Start Date',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง'
+      });
+    } else if (this.objRegister.endDate == null) {
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'โปรดระบุ End Date',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง'
+      });
+    } else {
+      this.dialogRef.close(this.objRegister);
+    }
   }
 
   onCancel() {
-    this.dialogRef.close();
+    Swal.fire({
+      title: 'คำเตือน',
+      text: 'คุณต้องการออกจากหน้านี้โดยไม่บันทึกการเปลี่ยนแปลงใช่ไหม?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'ตกลง',
+      cancelButtonText: 'ยกเลิก'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.dialogRef.close();
+      }
+    });
+
   }
 
 

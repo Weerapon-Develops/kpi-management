@@ -127,9 +127,11 @@ export class AccountComponent implements OnInit {
     try {
       const response = await this.ApiService.postAPI("Account/UpdateUser", payload).toPromise();
       if (response?.success) {
-        this.dataRow = this.dataRow.map(u =>
-          u.id === user.id ? { ...response.user } : u
-        );
+        this.dataRow = [];
+        this.getAllUser()
+        // this.dataRow = this.dataRow.map(u =>
+        //   u.id === user.id ? { ...response.user } : u
+        // );
         this.editedRowId = null;
         this.editedUser = null;
       }
@@ -142,7 +144,7 @@ export class AccountComponent implements OnInit {
 
   async deleteUser(id: number): Promise<void> {
     try {
-      console.log("id", id);
+
       Swal.fire({
         title: 'คำเตือน',
         text: 'คุณต้องการลบข้อมูลหรือไม่?',

@@ -61,7 +61,6 @@ export class LoginComponent {
     } else {
 
       const loginres = await this.ApiService.login(this.objLogin.userName, this.objLogin.password);
-      console.log("result", loginres);
 
       if (loginres.success) {
         Swal.fire({
@@ -69,11 +68,10 @@ export class LoginComponent {
           text: 'เข้าสู่ระบบสำเร็จ',
           icon: 'success',
           showConfirmButton: false,
-          timer: 2000, // หน่วยเป็นมิลลิวินาที (2000 = 2 วินาที)
+          timer: 2000,
           timerProgressBar: true
         });
 
-        console.log("Success");
         localStorage.setItem('token', loginres.data);
         this.router.navigate(['dashboard']);
         this.isShowMessage = false

@@ -83,8 +83,8 @@ export class RegisterComponent implements OnInit {
       } else {
         Swal.fire({
           title: 'รหัสผ่านไม่ตรงกัน',
-          text: 'กรุณากรอกรหัสผ่านให้ตรงกันทั้งสองช่อง',
-          icon: 'error',
+          text: 'กรุณากรอก Confirm Password และ Password ให้ตรงกัน',
+          icon: 'warning',
           confirmButtonText: 'ตกลง'
         });
       }

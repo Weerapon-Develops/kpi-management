@@ -40,7 +40,7 @@
         </mat-form-field>
 
         <mat-form-field appearance="fill" class="login-field">
-          <mat-label>Employee</mat-label>
+          <mat-label>Assigned User</mat-label>
           <mat-select [(ngModel)]="objRegister.assignedUser">
             <mat-option *ngFor="let role of dataGetAllUser" [value]="role.id">
               {{ role.username }}
