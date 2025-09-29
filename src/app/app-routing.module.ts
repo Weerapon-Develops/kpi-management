@@ -29,6 +29,10 @@ const routes: Routes = [
       {
         path: 'dashboardList',
         loadComponent: () => import('./dashboard-detail/dashboard-detail.component').then(m => m.DashboardDetailComponent)
+      },
+      {
+        path: 'manage-role',
+        loadComponent: () => import('./pages/manage-role/manage-role.component').then(m => m.ManageRoleComponent)
       }
     ]
 

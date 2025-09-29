@@ -72,7 +72,7 @@ export class DashboardDetailComponent implements OnInit {
 
   ngOnInit() {
     this.getGetAllKpi();
-    this.getAllRole()
+    this.getAllRole();
   }
 
   async getAllRole() {
@@ -96,7 +96,7 @@ export class DashboardDetailComponent implements OnInit {
       }
     }
 
-    console.log(this.dataRow);
+    // console.log(this.dataRow);
 
 
     // แปลงข้อมูลเป็น Chart Data
@@ -152,12 +152,12 @@ export class DashboardDetailComponent implements OnInit {
 
   async onSearch() {
     const criteria = this.searchForm.value;
-    console.log("Search Criteria:", criteria);
-    console.log("dataRow", this.dataRow);
+    // console.log("Search Criteria:", criteria);
+    // console.log("dataRow", this.dataRow);
 
     let filtered = this.dataRow;
     if (criteria.user) {
-      console.log(filtered);
+      // console.log(filtered);
 
       filtered = filtered.filter(x => x.assignedUser === criteria.user);
     }
@@ -169,14 +169,14 @@ export class DashboardDetailComponent implements OnInit {
     if (criteria.fromDate) {
       // filtered = filtered.filter(x => new Date(x.date) >= new Date(criteria.fromDate));
       filtered = filtered.filter(x => new Date(x.date).getTime() == criteria.fromDate.getTime());
-      console.log("2", filtered);
+      // console.log("2", filtered);
 
     }
     if (criteria.toDate) {
       filtered = filtered.filter(x => new Date(x.date) <= new Date(criteria.toDate));
     }
 
-    console.log(filtered);
+    // console.log(filtered);
 
 
 

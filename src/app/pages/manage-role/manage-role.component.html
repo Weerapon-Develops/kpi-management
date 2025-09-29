@@ -1,0 +1,71 @@
+<mat-card>
+  <div style="padding: 16px;">
+    <h2 style="margin: 0;">Add Role</h2>
+
+    <div style="margin-top: 12px; text-align: left;">
+      <button mat-raised-button color="primary" (click)="openAddDialog()">
+        <i class="fa-solid fa-plus" style="margin-right: 8px;"></i> เพิ่ม Role
+      </button>
+    </div>
+  </div>
+
+
+
+  <table mat-table [dataSource]="dataRow" class="mat-elevation-z2" style="width: 100%;">
+
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> Id </th>
+      <td mat-cell *matCellDef="let user"> {{ user.id }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Role </th>
+      <td mat-cell *matCellDef="let role">
+        <ng-container *ngIf="editedUser && editedRowId === role.id; else viewRole">
+          <mat-form-field appearance="fill" style="width: 100%;">
+            <mat-select [(ngModel)]="editedUser.name">
+              <mat-option *ngFor="let r of dataGetAllRole" [value]="r.name">
+                {{ r.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+        <ng-template #viewRole>
+          {{ role.name }}
+        </ng-template>
+      </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef style="width: 130px; text-align: right;"> Actions </th>
+      <td mat-cell *matCellDef="let role" style="width: 130px; text-align: right;">
+        <ng-container *ngIf="editedUser?.id === role.id; else editDelete">
+          <button mat-icon-button color="primary" (click)="saveUser(role)">
+            <i class="fa-solid fa-floppy-disk"></i>
+
+          </button>
+          <button mat-icon-button color="warn" (click)="cancelEdit()">
+            <i class="fa-solid fa-rotate-right"></i>
+
+          </button>
+        </ng-container>
+        <ng-template #editDelete>
+          <button mat-icon-button color="accent" (click)="editUser(role)">
+            <i class="fa-solid fa-edit"></i>
+
+
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteUser(role.id)">
+            <i class="fa-solid fa-trash"></i>
+
+          </button>
+        </ng-template>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</mat-card>
