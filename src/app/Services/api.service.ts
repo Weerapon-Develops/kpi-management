@@ -46,17 +46,17 @@ export class ApiService {
   }
 
   getAPIWithAuth(strUrl: string): Observable<any> {
-  if (!this.token) {
+    if (!this.token) {
 
-    this.token = this.token = localStorage.getItem('token') ?? '';
-    // console.error('Token is missing!');
+      this.token = this.token = localStorage.getItem('token') ?? '';
+      // console.error('Token is missing!');
+    }
+
+    return this.http.get<any>(this.ServerApiUrl + "/" + strUrl, { headers: this.getHeaderContentTypeJson() })
+      .pipe(
+        catchError(this.handleError<any>('getAPIWithAuth'))
+      );
   }
-
-  return this.http.get<any>(this.ServerApiUrl + "/" + strUrl, { headers: this.getHeaderContentTypeJson() })
-    .pipe(
-      catchError(this.handleError<any>('getAPIWithAuth'))
-    );
-}
 
   async postAPIAsync(strUrl: string, objBody: any, resolveCallBack?: Function | null, rejectCallBack?: Function | null): Promise<Observable<any>> {
     return new Promise<Observable<any>>((resolve, reject) => {
@@ -142,12 +142,18 @@ export class ApiService {
     const responseLogin: any = await this.postAPIAsync("Auth/login", { username: username, password: password });
 
     if (responseLogin.success) {
-        this.token = responseLogin.data;
-        this.isLoggedIn = responseLogin.success;
+      this.token = responseLogin.data.token;
+      localStorage.setItem('token', this.token);
+      localStorage.setItem('userName', responseLogin.data.user.username);
+      localStorage.setItem('email', responseLogin.data.user.email);
+      localStorage.setItem('userId', responseLogin.data.user.userId);
+      console.log("token", this.token);
+
+      this.isLoggedIn = responseLogin.success;
     }
 
     return responseLogin;
 
-}
+  }
 
 }

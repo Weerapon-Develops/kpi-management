@@ -59,10 +59,18 @@ export class LoginComponent {
 
       return
     } else {
+      Swal.fire({
+        title: 'Login...',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading(); // แสดง spinner
+        }
+      });
+      const data = await this.ApiService.login(this.objLogin.userName, this.objLogin.password);
+console.log(data);
 
-      const loginres = await this.ApiService.login(this.objLogin.userName, this.objLogin.password);
-
-      if (loginres.success) {
+      if (data.success) {
+        Swal.close();
         Swal.fire({
           title: 'สำเร็จ',
           text: 'เข้าสู่ระบบสำเร็จ',
@@ -72,7 +80,8 @@ export class LoginComponent {
           timerProgressBar: true
         });
 
-        localStorage.setItem('token', loginres.data);
+        // localStorage.setItem('token', data.token);
+        // localStorage.setItem('userName', data.)
         this.router.navigate(['dashboard']);
         this.isShowMessage = false
 
@@ -85,7 +94,7 @@ export class LoginComponent {
           icon: 'warning',
           confirmButtonText: 'ตกลง'
         });
-        this.strMessage = loginres.message;
+        this.strMessage = data.message;
         this.isShowMessage = true;
       }
 

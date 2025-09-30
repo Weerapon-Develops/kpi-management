@@ -19,8 +19,8 @@ export class SidebarComponent implements OnInit {
   @Input() isSidebarCollapsed: boolean = false
   @Output() sidebarToggle = new EventEmitter<void>();
   menuItems: MenuItem[] = [];
-  email = 'weerapon@gmai.com';
-  username = 'weerapon'
+  email: string = "";
+  username: string = "";
 
   constructor(
     private router: Router,
@@ -32,6 +32,13 @@ export class SidebarComponent implements OnInit {
     this.roleLevelService.roleLevel$.subscribe(data => {
       if (data.menuItems) {
         this.useRoleLevel(data.menuItems);
+        if (localStorage.getItem("email")) {
+          this.email = localStorage.getItem("email") ?? "";
+        }
+        if (localStorage.getItem("userName")) {
+          this.username = localStorage.getItem("userName") ?? "";
+        }
+
       }
     });
   }
