@@ -86,7 +86,8 @@ export class AccountComponent implements OnInit {
   }
 
   async getAllUser() {
-    this.dataRow = await this.ApiService.getAPI("Account/GetAllUser").toPromise();
+    this.dataRow = (await this.ApiService.getAPI("Account/GetAllUser").toPromise())
+      .sort((a: any, b: any) => a.id - b.id);
   }
 
   useRoleLevel(data: any) {

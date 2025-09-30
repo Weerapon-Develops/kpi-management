@@ -87,7 +87,8 @@ export class KpiComponent implements OnInit {
   }
 
   async getGetAllKpi() {
-    this.dataRow = await this.ApiService.getAPI("Kpi/GetAllKpi").toPromise();
+    this.dataRow = (await this.ApiService.getAPI("Kpi/GetAllKpi").toPromise())
+      .sort((a: any, b: any) => a.id - b.id);
     let StrRole = localStorage.getItem("Role")
     let UserId = localStorage.getItem("userId")?? 0;
 

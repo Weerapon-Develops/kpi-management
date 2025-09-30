@@ -38,13 +38,9 @@ export class AddRoleDialogComponent implements OnInit {
   ) { }
 
  ngOnInit() {
-    //  this.getAllRole()
    }
 
-  //  async getAllRole() {
-  //    this.dataRow = await this.ApiService.getAPI("Account/GetAllRole").toPromise();
-  //    console.log("dataRow", this.dataRow);
-  //  }
+
 
    async onSubmit() {
 

@@ -89,13 +89,12 @@ dataRow: Role[] = [];
     }
 
     async GetAllRoles() {
-      this.dataRow = await this.ApiService.getAPI("Role/GetAllRole").toPromise();
-      console.log("dataRow",JSON.stringify(this.dataRow));
+      this.dataRow = (await this.ApiService.getAPI("Role/GetAllRole").toPromise())
+      .sort((a: any, b: any) => a.id - b.id);
 
     }
 
     useRoleLevel(data: any) {
-      // console.log(JSON.stringify(data));
 
     }
 
