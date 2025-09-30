@@ -1,12 +1,12 @@
 <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
 
-  <mat-card style="margin-bottom: 16px;">
-    <form [formGroup]="searchForm" (ngSubmit)="onSearch()">
-      <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+  <mat-card class="search-card">
+    <form [formGroup]="searchForm">
+      <div class="search-form-grid">
 
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" class="dropdown-field">
           <mat-label>Assigned User</mat-label>
-          <mat-select formControlName="user">
+          <mat-select formControlName="id">
             <mat-option value="">All</mat-option>
             <mat-option *ngFor="let role of dataGetAllUser" [value]="role.id">
               {{ role.username }}
@@ -14,8 +14,7 @@
           </mat-select>
         </mat-form-field>
 
-
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" class="dropdown-field">
           <mat-label>Status</mat-label>
           <mat-select formControlName="status">
             <mat-option value="">All</mat-option>
@@ -25,38 +24,26 @@
           </mat-select>
         </mat-form-field>
 
-        <!-- <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" class="dropdown-field">
           <mat-label>Start Date</mat-label>
-          <input matInput [matDatepicker]="startdate" formControlName="fromDate" placeholder="Choose a start date" />
+          <input matInput [matDatepicker]="startdate" formControlName="startDate" placeholder="dd/MM/yyyy">
           <mat-datepicker-toggle matSuffix [for]="startdate"></mat-datepicker-toggle>
           <mat-datepicker #startdate></mat-datepicker>
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" class="dropdown-field">
           <mat-label>End Date</mat-label>
-          <input matInput [matDatepicker]="enddate" formControlName="toDate" placeholder="Choose a start date" />
-          <mat-datepicker-toggle matSuffix [for]="enddate"></mat-datepicker-toggle>
-          <mat-datepicker #enddate></mat-datepicker>
-        </mat-form-field> -->
-
-        <mat-form-field appearance="outline">
-          <mat-label>Start Date</mat-label>
-          <input matInput [matDatepicker]="startdate" formControlName="fromDate" placeholder="dd/MM/yyyy">
-          <mat-datepicker-toggle matSuffix [for]="startdate"></mat-datepicker-toggle>
-          <mat-datepicker #startdate></mat-datepicker>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>End Date</mat-label>
-          <input matInput [matDatepicker]="enddate" formControlName="toDate" placeholder="dd/MM/yyyy">
+          <input matInput [matDatepicker]="enddate" formControlName="endDate" placeholder="dd/MM/yyyy">
           <mat-datepicker-toggle matSuffix [for]="enddate"></mat-datepicker-toggle>
           <mat-datepicker #enddate></mat-datepicker>
         </mat-form-field>
 
+        <div class="search-buttons">
+          <button mat-raised-button color="primary" type="submit" (click)="onSearch()">🔍 Search</button>
+          <button mat-raised-button color="warn" type="button" (click)="onClear()">🧹 Clear</button>
+        </div>
 
 
-
-        <button mat-raised-button color="primary" class="mat-btb-Register" type="submit">Search</button>
       </div>
     </form>
   </mat-card>
@@ -80,7 +67,7 @@
       </canvas>
     </div>
 
-        <!-- Pie Chart -->
+    <!-- Pie Chart -->
     <div style="width: 400px; margin: 20px;">
       <h3 style="text-align: center;">KPI User</h3>
       <canvas baseChart [data]="pieChartUser" [options]="{ responsive: true, plugins: { legend: { position: 'top' } } }"

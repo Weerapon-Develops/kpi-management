@@ -63,10 +63,10 @@ export class DashboardDetailComponent implements OnInit {
 
   constructor(private ApiService: ApiService, private fb: FormBuilder) {
     this.searchForm = this.fb.group({
-      user: [''],
+      id: [null],
       status: [''],
-      fromDate: [''],
-      toDate: ['']
+      startDate: [null],
+      endDate: [null]
     });
   }
 
@@ -77,38 +77,43 @@ export class DashboardDetailComponent implements OnInit {
 
   async getAllRole() {
     this.dataGetAllUser = await this.ApiService.getAPI("Account/GetAllUser").toPromise();
-    console.log("dataGetAllRole", this.dataGetAllUser);
+    // console.log("dataGetAllRole", this.dataGetAllUser);
   }
 
   async getGetAllKpi() {
-    this.dataRow = await this.ApiService.getAPI("Kpi/GetAllKpi").toPromise();
-    console.log("dataRow", this.dataRow);
-
-    for (let index = 0; index < this.dataRow.length; index++) {
-      const assignedId = Number(this.dataRow[index].assignedUser); // แปลงให้แน่ใจว่าเป็น number
-      const user = this.dataGetAllUser.find(u => u.id === assignedId);
-
-      if (user) {
-        this.dataRow[index].assignedName = user.username;
-      } else {
-        console.warn(`ไม่พบ user สำหรับ assignedUser: ${assignedId}`);
-        this.dataRow[index].assignedName = null;
-      }
+    // this.dataRow = await this.ApiService.getAPI("Kpi/GetDashboard").toPromise();
+    var result = {
+      id: null,
+      status: "",
+      startDate: null,
+      endDate: null,
+      name: ""
     }
+    this.ApiService.postAPI("Kpi/GetDashboard", result).subscribe(res => {
+      console.log("res", res);
+
+      if (res) {
+        this.dataRow = res.data;
+        console.log("dataRow", this.dataRow);
+        this.pieChartData = this.mapToPieChart(this.dataRow);
+        this.barChartData = this.mapToBarChart(this.dataRow);
+        this.pieChartUser = this.maptoPieUserChart(this.dataRow)
+      }
+    });
+
+
 
     // console.log(this.dataRow);
 
 
-    // แปลงข้อมูลเป็น Chart Data
-    this.pieChartData = this.mapToPieChart(this.dataRow);
-    this.barChartData = this.mapToBarChart(this.dataRow);
-    this.pieChartUser = this.maptoPieUserChart(this.dataRow)
+
+
   }
 
-    // ---------------- Pie Chart ----------------
+
   maptoPieUserChart(data: any[]): ChartData<'pie', number[], string | string[]> {
     return {
-      labels: data.map(d => d.assignedName),
+      labels: data.map(d => d.username),
       datasets: [
         {
           data: data.map(d => d.status),
@@ -118,7 +123,7 @@ export class DashboardDetailComponent implements OnInit {
     };
   }
 
-  // ---------------- Pie Chart ----------------
+
   mapToPieChart(data: any[]): ChartData<'pie', number[], string | string[]> {
     return {
       labels: data.map(d => d.title),
@@ -131,7 +136,7 @@ export class DashboardDetailComponent implements OnInit {
     };
   }
 
-  // ---------------- Bar Chart ----------------
+
   mapToBarChart(data: any[]): ChartData<'bar'> {
     return {
       labels: data.map(d => d.title),
@@ -151,39 +156,44 @@ export class DashboardDetailComponent implements OnInit {
   }
 
   async onSearch() {
+    console.log("searchForm :", this.searchForm);
     const criteria = this.searchForm.value;
-    // console.log("Search Criteria:", criteria);
-    // console.log("dataRow", this.dataRow);
 
-    let filtered = this.dataRow;
-    if (criteria.user) {
-      // console.log(filtered);
 
-      filtered = filtered.filter(x => x.assignedUser === criteria.user);
-    }
-    if (criteria.status) {
-      filtered = filtered.filter(x => x.status === criteria.status);
+
+    var result = {
+      id: criteria.id ?? null,
+      status: criteria.status ?? "",
+      startDate: criteria.startDate ?? null,
+      endDate: criteria.endDate ?? null,
+      name: ""
     }
 
+    console.log("result", result);
 
-    if (criteria.fromDate) {
-      // filtered = filtered.filter(x => new Date(x.date) >= new Date(criteria.fromDate));
-      filtered = filtered.filter(x => new Date(x.date).getTime() == criteria.fromDate.getTime());
-      // console.log("2", filtered);
+    this.ApiService.postAPI("Kpi/GetDashboard", result).subscribe(res => {
+      console.log("res", res);
 
-    }
-    if (criteria.toDate) {
-      filtered = filtered.filter(x => new Date(x.date) <= new Date(criteria.toDate));
-    }
+      if (res) {
+        this.dataRow = res.data;
+        console.log("dataRow", this.dataRow);
+        this.pieChartData = this.mapToPieChart(this.dataRow);
+        this.barChartData = this.mapToBarChart(this.dataRow);
+        this.pieChartUser = this.maptoPieUserChart(this.dataRow)
+      }
+    });
 
-    // console.log(filtered);
 
 
 
-    // Update Chart
-    this.pieChartData = this.mapToPieChart(filtered);
-    this.barChartData = this.mapToBarChart(filtered);
   }
+
+  onClear(): void {
+    this.searchForm.reset();
+    this.getGetAllKpi();
+
+  }
+
 
 
 }
