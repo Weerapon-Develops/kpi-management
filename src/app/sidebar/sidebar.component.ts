@@ -103,6 +103,7 @@ export class SidebarComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         localStorage.removeItem('token');
+        localStorage.removeItem('Role');
         this.router.navigate(['/login']);
       }
     });

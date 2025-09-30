@@ -16,6 +16,7 @@ import { AlertProvider } from '../Provider/alert.provider';
 import { ApiService } from '@services/api.service';
 import { HttpHeaders } from '@angular/common/http';
 import { RoleLevelService } from '@services/role-level.service';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -48,13 +49,33 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.roleLevelService.fetchRoleLevel();
     this.roleLevelService.roleLevel$.subscribe(data => {
-      if (data) {
-        this.useRoleLevel(data);
-      }
+      setTimeout(() => {
+        Swal.fire({
+          title: 'GetData...',
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading(); // แสดง spinner
+          }
+        });
+
+        const role = localStorage.getItem('Role');
+        // console.log(role);
+
+        if (role === "User") {
+          this.router.navigate(['dashboard/kpi']);
+        }
+        if (data && this.router.url === '/dashboard') {
+          this.useRoleLevel(data);
+        }
+        Swal.close();
+      }, 1000);
+
     });
   }
 
   useRoleLevel(data: any) {
+    console.log("componentDashboard");
+
 
     const role = localStorage.getItem('Role');
 
