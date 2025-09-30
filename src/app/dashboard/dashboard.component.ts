@@ -43,21 +43,30 @@ export class DashboardComponent implements OnInit {
     private ApiService: ApiService,
     private router: Router,
     private alertProvider: AlertProvider,
-  private roleLevelService: RoleLevelService) { }
+    private roleLevelService: RoleLevelService) { }
 
-ngOnInit() {
-  this.roleLevelService.fetchRoleLevel();
-  this.roleLevelService.roleLevel$.subscribe(data => {
-    if (data) {
-      this.useRoleLevel(data);
+  ngOnInit() {
+    this.roleLevelService.fetchRoleLevel();
+    this.roleLevelService.roleLevel$.subscribe(data => {
+      if (data) {
+        this.useRoleLevel(data);
+      }
+    });
+  }
+
+  useRoleLevel(data: any) {
+
+    const role = localStorage.getItem('Role');
+
+    if (role === 'Admin') {
+      this.router.navigate(['dashboard/dashboardList']);
+    } else if (role === 'User') {
+      this.router.navigate(['dashboard/kpi']);
+    } else {
+      this.router.navigate(['/login']);
     }
-  });
-}
 
-useRoleLevel(data: any) {
-  // console.log(data);
-
-}
+  }
 
 
 }

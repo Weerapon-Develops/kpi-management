@@ -17,7 +17,7 @@ const routes: Routes = [
     component: DashboardComponent,
     canActivate: [AuthGuardService],
     children: [
-      { path: '', redirectTo: 'dashboardList', pathMatch: 'full' },
+      // { path: '', redirectTo: 'dashboardList', pathMatch: 'full' },
       {
         path: 'account',
         loadComponent: () => import('./pages/account/account.component').then(m => m.AccountComponent)
