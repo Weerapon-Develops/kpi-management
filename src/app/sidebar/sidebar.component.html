@@ -1,24 +1,25 @@
 <div class="sidebar" [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }">
+  <!-- Sidebar Header / Logo -->
   <div class="sidebar-header">
-    <a class="sidebar-logo">{{
-      isSidebarCollapsed ? 'KPI' : 'KPI Management System'
-      }}</a>
+    <a class="sidebar-logo">
+      {{ isSidebarCollapsed ? 'KPI' : 'KPI Management System' }}
+    </a>
   </div>
+
+  <!-- Sidebar Menu -->
   <div class="sidebar-menu">
     <ul>
       <ng-container *ngFor="let item of menuItems">
         <li class="sidebar-menu-item">
-          <!-- Main Menu -->
           <a class="sidebar-item" [ngClass]="{
-     'has-children': item.children,
-     'menu-item-active': item.isOpen
-   }" (click)="item.children ? toggleMenuItem(item) : navigateToItem(item)">
+                'has-children': item.children,
+                'menu-item-active': item.isOpen
+              }" (click)="item.children ? toggleMenuItem(item) : navigateToItem(item)">
             <i [class]="item.icon"></i>
             <span class="sidebar-item-text">{{ item.label }}</span>
             <i *ngIf="item.children && !isSidebarCollapsed" class="fas fa-chevron-down sidebar-item-arrow"
               [ngClass]="{ rotated: item.isOpen }"></i>
           </a>
-          <!-- Child Menu -->
           <ul *ngIf="item.children && !isSidebarCollapsed && item.isOpen" class="sidebar-submenu">
             <li *ngFor="let child of item.children">
               <a class="sidebar-item sidebar-subitem" (click)="navigateToChild(child)">
@@ -27,9 +28,20 @@
               </a>
             </li>
           </ul>
-
         </li>
       </ng-container>
     </ul>
   </div>
+
+<!-- Sidebar User Info at bottom -->
+<div class="sidebar-user-wrapper" style="padding: 10px;">
+  <div class="sidebar-user" style="margin-top: 520px; border: 1px solid #ccc; border-radius: 10px; padding: 10px;" *ngIf="!isSidebarCollapsed">
+    <i class="fa-solid fa-circle-user" style="font-size: 32px;"></i>
+    <div class="sidebar-user-info">
+      <div class="sidebar-user-name">{{ username }}</div>
+      <div class="sidebar-user-email">{{ email }}</div>
+    </div>
+  </div>
 </div>
+
+

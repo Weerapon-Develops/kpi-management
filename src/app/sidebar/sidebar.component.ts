@@ -19,6 +19,8 @@ export class SidebarComponent implements OnInit {
   @Input() isSidebarCollapsed: boolean = false
   @Output() sidebarToggle = new EventEmitter<void>();
   menuItems: MenuItem[] = [];
+  email = 'weerapon@gmai.com';
+  username = 'weerapon'
 
   constructor(
     private router: Router,

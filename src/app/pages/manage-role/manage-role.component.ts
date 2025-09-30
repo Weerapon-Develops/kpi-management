@@ -13,6 +13,7 @@ import { ApiService } from '@services/api.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AddUserDialogComponent } from '../add-user-dialog/add-user-dialog.component';
+import { AddRoleDialogComponent } from '../add-role-dialog/add-role-dialog.component';
 
 @Component({
   selector: 'app-manage-role',
@@ -57,7 +58,7 @@ dataRow: Role[] = [];
     }
 
     openAddDialog(): void {
-      const dialogRef = this.dialog.open(AddUserDialogComponent, {
+      const dialogRef = this.dialog.open(AddRoleDialogComponent, {
         width: '700px',
         maxWidth: '95vw',
         data: { roles: this.dataGetAllRole },
@@ -66,12 +67,17 @@ dataRow: Role[] = [];
 
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
-          console.log('New user:', result);
-          // เรียก API เพื่อเพิ่ม user
-          this.ApiService.postAPI("Auth/register", result).subscribe(res => {
+          console.log('New Role:', result);
+
+          this.ApiService.postAPI("Role/InsertRole", result).subscribe(res => {
+            console.log(res);
+
             if (res.success) {
-              this.dataRow.push(res.user); // หรือจะ reload ทั้ง list ก็ได้
-              this.GetAllRoles();
+              console.log("success");
+
+              // this.dataRow.push(res.user);
+              // this.dataRow = []
+               this.GetAllRoles();
             }
           });
         }
@@ -120,12 +126,12 @@ dataRow: Role[] = [];
 
       const payload = {
         id: this.editedUser.id,
-        username: this.editedUser.name,
+        name: this.editedUser.name,
       };
       console.log(JSON.stringify(payload));
 
       try {
-        const response = await this.ApiService.postAPI("Account/UpdateUser", payload).toPromise();
+        const response = await this.ApiService.postAPI(`Role/UpdateRole/${payload.id}`, payload).toPromise();
         if (response?.success) {
           this.dataRow = [];
           this.GetAllRoles()
@@ -156,7 +162,7 @@ dataRow: Role[] = [];
           if (result.isConfirmed) {
             const response = await this.ApiService.postAPI(`Role/DeleteRole/${id}`, {}).toPromise();
 
-            if (response?.success) {
+            if (response) {
               this.dataRow = this.dataRow.filter(u => u.id !== id);
               Swal.fire({
                 title: 'สำเร็จ',
