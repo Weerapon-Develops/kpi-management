@@ -88,6 +88,18 @@ export class KpiComponent implements OnInit {
 
   async getGetAllKpi() {
     this.dataRow = await this.ApiService.getAPI("Kpi/GetAllKpi").toPromise();
+    let StrRole = localStorage.getItem("Role")
+    let UserId = localStorage.getItem("userId")?? 0;
+
+    if (StrRole != null) {
+      if (StrRole === "User") {
+        this.dataRow = this.dataRow.filter(x => x.assignedUser == UserId)
+        console.log("User");
+
+      }
+    }
+
+
     console.log("dataRow", this.dataRow);
   }
 
@@ -148,11 +160,11 @@ export class KpiComponent implements OnInit {
       if (response?.success) {
         this.dataRow = [];
         this.getGetAllKpi()
-          // this.dataRow = this.dataRow.map(u =>
-          //   u.id === dataKpi.id ? { ...response.data } : u
-          // );
-          this.editedRowId = null;
-          this.editedKPI = null;
+        // this.dataRow = this.dataRow.map(u =>
+        //   u.id === dataKpi.id ? { ...response.data } : u
+        // );
+        this.editedRowId = null;
+        this.editedKPI = null;
       }
     } catch (error) {
       console.error("Update error:", error);
