@@ -1,5 +1,7 @@
 <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
 
+  <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+
   <mat-card class="search-card">
     <form [formGroup]="searchForm">
       <div class="search-form-grid">
@@ -49,29 +51,29 @@
   </mat-card>
 
 
-  <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
 
-    <!-- Pie Chart -->
-    <div style="width: 400px; margin: 20px;">
+    <div style="width: 570px; margin: 20px;">
       <h3 style="text-align: center;">KPI Overview</h3>
       <canvas baseChart [data]="pieChartData" [options]="{ responsive: true, plugins: { legend: { position: 'top' } } }"
         [type]="'pie'">
       </canvas>
     </div>
 
-    <!-- Bar Chart -->
+
+
+
+    <div style="width: 570px; margin: 20px;">
+      <h3 style="text-align: center;">KPI User</h3>
+      <canvas baseChart [data]="pieChartUser" [options]="{ responsive: true, plugins: { legend: { position: 'top' } } }"
+        [type]="'pie'">
+      </canvas>
+    </div>
+
+
     <div style="width: 600px; margin: 20px;">
       <h3 style="text-align: center;">KPI Target vs Actual</h3>
       <canvas baseChart [data]="barChartData" [options]="{ responsive: true, plugins: { legend: { position: 'top' } } }"
         [type]="'bar'">
-      </canvas>
-    </div>
-
-    <!-- Pie Chart -->
-    <div style="width: 400px; margin: 20px;">
-      <h3 style="text-align: center;">KPI User</h3>
-      <canvas baseChart [data]="pieChartUser" [options]="{ responsive: true, plugins: { legend: { position: 'top' } } }"
-        [type]="'pie'">
       </canvas>
     </div>
 

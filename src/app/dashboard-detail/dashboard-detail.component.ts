@@ -113,12 +113,13 @@ export class DashboardDetailComponent implements OnInit {
 
   maptoPieUserChart(data: any[]): ChartData<'pie', number[], string | string[]> {
     return {
-      labels: data.map(d => d.username),
+      labels: data.map(d => `${d.username} - ${d.description}`),
       datasets: [
         {
-          data: data.map(d => d.status),
+          data: data.map(d => d.actualValue ),
           backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
         }
+
       ]
     };
   }
@@ -139,7 +140,7 @@ export class DashboardDetailComponent implements OnInit {
 
   mapToBarChart(data: any[]): ChartData<'bar'> {
     return {
-      labels: data.map(d => d.title),
+      labels: data.map(d => d.username),
       datasets: [
         {
           label: 'Target',
